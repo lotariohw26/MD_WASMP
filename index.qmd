@@ -11,17 +11,9 @@ filters:
 
 ![](pngs/md.png)
 
-
-
-
 Ed. Solomon
 
 > "At the very core of this article lay the assumption of Causality, that the **Effect cannot precede the Cause**; likewise, the **Aggregate Percentage of a Candidate cannot precede the Election Day and the Mail-in Percentages of that candidate**. 
-
-
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
 
 ```{webr-r}

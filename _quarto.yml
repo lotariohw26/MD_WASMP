@@ -1,19 +1,51 @@
 project:
   output-dir: "."
-  type: website
+  render:
+    - "index.qmd"
+      #    - "py.qmd"
+      #    - "abc.qmd"
+      #    - "def.qmd"
+      #    - "tabsets.qmd"
+      #    - "app_par.qmd"
+      #    - "app_add_bs.qmd"
+      #    - "app_add_az.qmd"
+      #    - "app_add_ne.qmd"
+      #    - "app_add_bs.qmd"
+      #    - "man_bib.qmd"
+      #    - "laws.qmd"
+      #    - "!*.Rmd"
+      #    - "webr.qmd"
+      #    - "websp.qmd"
+      #    - "websr.qmd"
+      #    - "app2_mi.qmd"
+      #    - "app3_ea.qmd"
+      #    - "app4_ra.qmd"
 
 website:
   title: "Manifold Destiny"
+  repo-url: https://github.com/lotariohw26/Hyperinflation.git
+  repo-actions: [edit]
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - text: "Index"
+        href: index.qmd
+      - text: "Presentation"
+        menu:
+          - text: "Manifold Destiny - or how to rig an election" 
+      - text: "Applications"
+        menu:
+          - text: "R2 simulator"
+            href: app1_r2.qmd 
+
 
 format:
   html:
+    #theme: zephyr
     theme: solar
     css: styles.css
     toc: true
+
+
+
 
 
