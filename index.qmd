@@ -5,3 +5,32 @@ title: "."
 This is a Quarto website.
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+
+```{webr-r}
+webr::install("dplyr", repos = "")
+#webr::install("ManifoldDestinyWASM", repos = "")
+library(TeachingWASM)
+ls(package:TeachingWASM)
+TeachingWASM::hello()
+TeachingWASM::abc
+
+```
+
+[REPL](https://webr.r-wasm.org/latest/)
+
+```{webr-r}
+# Arg
+arg1 <- 'https://raw.githubusercontent.com/joernih/TeachingWASM/main/data-raw/csv/boliger.csv'
+arg2 <- 'boliger.csv'
+# Download a dataset
+download.file(
+arg1,
+arg2
+)
+abc <- read.csv('boliger.csv')
+abc
+```
+
+
+
