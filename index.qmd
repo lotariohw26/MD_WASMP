@@ -21,15 +21,15 @@ ManifoldDestinyWASM::app0
 [REPL](https://webr.r-wasm.org/latest/)
 
 ```{webr-r}
-# Arg
-arg1 <- 'https://raw.githubusercontent.com/joernih/TeachingWASM/main/data-raw/csv/boliger.csv'
-arg2 <- 'boliger.csv'
+# Ar
+arg1 <- ''
+arg2 <- ''
 # Download a dataset
 download.file(
 arg1,
 arg2
 )
-abc <- read.csv('boliger.csv')
+abc <- read.csv('')
 abc
 ```
 
