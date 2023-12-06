@@ -378,7 +378,7 @@ frm	data-raw/metadata.json	/^      "frm":1,$/;"	n	object:app4.mtd
 frm	data-raw/metadata.json	/^      "frm":1,$/;"	n	object:app5.mtd
 frm	data-raw/metadata.json	/^      "frm":1,$/;"	n	object:app6.mtd
 header	data-raw/county_recorder_az.R	/^az_gen_co_2022 <- data.table::fread("~\/research\/ManifoldDestiny\/data-raw\/Arizona_2022\/cohis/;"	g
-hello	R/hello.R	/^hello <- function() {$/;"	f
+hello	R/hello.R	/^hello <- function(x=2,y=2) {$/;"	f
 labrow	data-raw/county_recorder_az.R	/^  labrow <- az_gen_co_2022[1:3,] $/;"	v	function:anonFunca550e7960900
 lp	data-raw/county_recorder_az.R	/^lp <- system(paste0('ls ',dirtxt),intern=T)[c(2:12,1)]$/;"	g
 lr	data-raw/county_recorder_az.R	/^lr <- data.table::fread(paste0(abs_p,'\/data-raw\/Arizona_2022\/maricopa\/maricopadfload.csv'))[/;"	g
