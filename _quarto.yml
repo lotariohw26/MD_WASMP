@@ -3,66 +3,66 @@ project:
   type: website
   render:
     - "index.qmd"
-    #    - "presentation.qmd"
-    # - "laws.qmd"
-    # - "app1_r2.qmd"
-    # - "app2_mi.qmd"
-    # - "app3_ea.qmd"
-    # - "app4_ra.qmd"
+    - "presentation.qmd"
+    - "data.qmd"
+    - "laws.qmd"
+      #    - "app1_r2.qmd"
+      #    - "app2_mi.qmd"
+      #    - "app3_ea.qmd"
+      #    - "app4_ra.qmd"
 
 website:
   title: "Manifold Destiny"
-  repo-url: https://lotariohw26.github.io/ManifoldDestinyWASM
-  site-url: https://github.com/lotariohw26/ManifoldDestinyWASM
   navbar:
     left:
       - text: "Index"
         href: index.qmd
       - text: "Presentation"
-        #        href: presentation.qmd
+        href: presentation.qmd
+      - text: "Data"
+        href: data.qmd
         menu:
           - text: "Manifold Destiny - or how to rig an election" 
           - text: "Addendum 1: Arizona"
           - text: "Addendum 2: Nevada"
-            #    - text: "Applications"
-            #      menu:
-            #        - text: "R2 simulator"
-            #          #            href: app1_r2.qmd
-            #        - text: "Simulator for the rigging of a natural election"
-            #          #            href: app2_mi.qmd 
-            #        - text: "Rigged election results analyzer"
-            #          #            href: app3_ea.qmd 
-            #        - text: "Restoration of an rigged election"
-            #          #            href: app4_ra.qmd 
-            #        - text: "Addendum 3: Bow-shock analysis"
-            #    - text: E-books
-            #      menu:
-            #        - text: "Analysis of the 2020 and 2022 General Elections of Clark and Washoe Counties, Nevada"
-            #          href: https://lotariohw26.github.io/GeneralElectionAnalysis
-            #    - text: Bibliography
-            #    - text: Appendix
-            #      menu:
-            #        - text: "20 laws and 40 isometries"
-            #          href: laws.qmd
-            #        - text: "Tabsets from different simulations"
-            #          href: tabsets.qmd
-            #        - text: "Parameterized report"
-            #          #            href: app_par.qmd
-            #    - text: WebAssembly
-            #      menu:
-            #        - text: "REPL"
-            #          href: https://webr.r-wasm.org/latest/
-            #              #          - text: "Shiny-R"
-            #      - text: Bibliography
+      - text: "Applications"
+        menu:
+          - text: "R2 simulator"
+            #            href: app1_r2.qmd
+          - text: "Simulator for the rigging of a natural election"
+            #            href: app2_mi.qmd 
+          - text: "Rigged election results analyzer"
+            #            href: app3_ea.qmd 
+          - text: "Restoration of an rigged election"
+            #            href: app4_ra.qmd 
+          - text: "Addendum 3: Bow-shock analysis"
+      - text: E-books
+        menu:
+          - text: "Analysis of the 2020 and 2022 General Elections of Clark and Washoe Counties, Nevada"
+            href: https://lotariohw26.github.io/GeneralElectionAnalysis
+      - text: Bibliography
+        #  href: man_bib.qmd
+      - text: Appendix
+        menu:
+          - text: "20 laws and 40 isometries"
+            href: laws.qmd
+          - text: "Tabsets from different simulations"
+            href: tabsets.qmd
+          - text: "Parameterized report"
+            #            href: app_par.qmd
+      - text: WebAssembly
+        menu:
+          - text: "REPL"
+            href: https://webr.r-wasm.org/latest/
+          - text: "Shiny-R"
+
 format:
   html:
     theme: zephyr
     toc: true
-
-      #filters:
-      #  - webr
-      #
-      #webr: 
-      #  show-startup-message: true    # Disable displaying status of webR initialization
-      #  packages: ['dplyr','ggplot2','plotly'] # Install R packages on document open
+filters:
+  - webr
+webr: 
+  show-startup-message: true    # Disable displaying status of webR initialization
+  packages: ['dplyr','ggplot2','plotly'] # Install R packages on document open
 
