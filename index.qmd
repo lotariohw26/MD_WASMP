@@ -33,7 +33,4 @@ abc
 ```
 
 
-```{r,echo=F}
-knitr::knit_exit()
-```
 
