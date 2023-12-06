@@ -21,8 +21,6 @@ ManifoldDestinyWASM::app0
 [REPL](https://webr.r-wasm.org/latest/)
 
 ```{webr-r}
-abc <- read.csv('')
-# Ar
 arg1 <- 'https://raw.githubusercontent.com/lotariohw26/ManifoldDestinyWASM/main/data-raw/abc.csv'
 arg2 <- 'abc.csv'
 # Download a dataset

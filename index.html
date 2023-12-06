@@ -737,9 +737,7 @@ ManifoldDestinyWASM::app0`,
   let editor;
   require(['vs/editor/editor.main'], function () {
     editor = monaco.editor.create(editorDiv, {
-      value: `abc <- read.csv('')
-# Ar
-arg1 <- 'https://raw.githubusercontent.com/lotariohw26/ManifoldDestinyWASM/main/data-raw/abc.csv'
+      value: `arg1 <- 'https://raw.githubusercontent.com/lotariohw26/ManifoldDestinyWASM/main/data-raw/abc.csv'
 arg2 <- 'abc.csv'
 # Download a dataset
 download.file(arg1,arg2)
