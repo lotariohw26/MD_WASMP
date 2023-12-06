@@ -6,6 +6,10 @@ project:
     - "presentation.qmd"
     - "data.qmd"
     - "laws.qmd"
+      #    - "app1_r2.qmd"
+      #    - "app2_mi.qmd"
+      #    - "app3_ea.qmd"
+      #    - "app4_ra.qmd"
 
 website:
   title: "Manifold Destiny"
@@ -13,10 +17,10 @@ website:
     left:
       - text: "Index"
         href: index.qmd
-      - text: "Data"
-        href: data.qmd
       - text: "Presentation"
         href: presentation.qmd
+      - text: "Data"
+        href: data.qmd
         menu:
           - text: "Manifold Destiny - or how to rig an election" 
           - text: "Addendum 1: Arizona"
@@ -24,19 +28,13 @@ website:
       - text: "Applications"
         menu:
           - text: "R2 simulator"
-          #            #href: http://localhost:3838/ManifoldDestiny/r2sim/
-          #            # inst/shinyapp/manimp/app.R
+            #            href: app1_r2.qmd
           - text: "Simulator for the rigging of a natural election"
-          #            #  href: http://localhost:3838/ManifoldDestiny/manimp/
-          #            href: app2_mi.qmd 
-          #            # inst/shinyapp/empapp/app.R
+            #            href: app2_mi.qmd 
           - text: "Rigged election results analyzer"
-          #            #  href: http://localhost:3838/ManifoldDestiny/empapp/
-          #            href: app3_ea.qmd 
-          #            # inst/shinyapp/restore/app.R
+            #            href: app3_ea.qmd 
           - text: "Restoration of an rigged election"
-          #            #  href: http://localhost:3838/ManifoldDestiny/restore/
-          #            href: app4_ra.qmd 
+            #            href: app4_ra.qmd 
           - text: "Addendum 3: Bow-shock analysis"
       - text: E-books
         menu:
@@ -49,7 +47,7 @@ website:
           - text: "20 laws and 40 isometries"
             href: laws.qmd
           - text: "Tabsets from different simulations"
-            #            href: tabsets.qmd
+            href: tabsets.qmd
           - text: "Parameterized report"
             #            href: app_par.qmd
       - text: WebAssembly
@@ -66,5 +64,5 @@ filters:
   - webr
 webr: 
   show-startup-message: true    # Disable displaying status of webR initialization
-  packages: ['dplyr'] # Install R packages on document open
+  packages: ['dplyr','ggplot2','plotly'] # Install R packages on document open
 

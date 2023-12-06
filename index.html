@@ -174,7 +174,7 @@ ul.task-list li input[type="checkbox"] {
   const initializeWebRTimerStart = performance.now();
 
   // Determine if we need to install R packages
-  var installRPackagesList = ['dplyr'];
+  var installRPackagesList = ['dplyr', 'ggplot2', 'plotly'];
   // Check to see if we have an empty array, if we do set to skip the installation.
   var setupRPackages = !(installRPackagesList.indexOf("") !== -1);
   var autoloadRPackages = true;
@@ -380,12 +380,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Index</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./data.html" rel="" target="">
- <span class="menu-text">Data</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./presentation.html" rel="" target="">
  <span class="menu-text">Presentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./data.html" rel="" target="">
+ <span class="menu-text">Data</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-applications" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
@@ -421,7 +421,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./laws.html" rel="" target="">
  <span class="dropdown-text">20 laws and 40 isometries</span></a>
   </li>  
-        <li class="dropdown-header">Tabsets from different simulations</li>
+        <li>
+    <a class="dropdown-item" href="./tabsets.qmd" rel="" target="">
+ <span class="dropdown-text">Tabsets from different simulations</span></a>
+  </li>  
         <li class="dropdown-header">Parameterized report</li>
     </ul>
   </li>
