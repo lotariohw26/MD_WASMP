@@ -1,51 +1,50 @@
 project:
   output-dir: "."
+  type: website
   render:
     - "index.qmd"
-      #    - "py.qmd"
-      #    - "abc.qmd"
-      #    - "def.qmd"
-      #    - "tabsets.qmd"
-      #    - "app_par.qmd"
-      #    - "app_add_bs.qmd"
-      #    - "app_add_az.qmd"
-      #    - "app_add_ne.qmd"
-      #    - "app_add_bs.qmd"
-      #    - "man_bib.qmd"
-      #    - "laws.qmd"
-      #    - "!*.Rmd"
-      #    - "webr.qmd"
-      #    - "websp.qmd"
-      #    - "websr.qmd"
-      #    - "app2_mi.qmd"
-      #    - "app3_ea.qmd"
-      #    - "app4_ra.qmd"
+    - "laws.qmd"
 
 website:
   title: "Manifold Destiny"
-  repo-url: https://github.com/lotariohw26/Hyperinflation.git
-  repo-actions: [edit]
   navbar:
     left:
       - text: "Index"
         href: index.qmd
       - text: "Presentation"
+        href: presentation.qmd
         menu:
           - text: "Manifold Destiny - or how to rig an election" 
-      - text: "Applications"
+          - text: "Addendum 1: Arizona"
+          - text: "Addendum 2: Nevada"
+          - text: "Addendum 3: Bow-shock analysis"
+      - text: E-books
         menu:
-          - text: "R2 simulator"
-            href: app1_r2.qmd 
-
+          - text: "Analysis of the 2020 and 2022 General Elections of Clark and Washoe Counties, Nevada"
+            href: https://lotariohw26.github.io/GeneralElectionAnalysis
+      - text: Bibliography
+        #  href: man_bib.qmd
+      - text: Appendix
+        menu:
+          - text: "20 laws and 40 isometries"
+            href: laws.qmd
+          - text: "Tabsets from different simulations"
+            #            href: tabsets.qmd
+          - text: "Parameterized report"
+            #            href: app_par.qmd
+      - text: WebAssembly
+        menu:
+          - text: "REPL"
+            href: https://webr.r-wasm.org/latest/
+          - text: "Shiny-R"
 
 format:
   html:
-    #theme: zephyr
-    theme: solar
-    css: styles.css
+    theme: zephyr
     toc: true
-
-
-
-
+filters:
+  - webr
+webr: 
+  show-startup-message: true    # Disable displaying status of webR initialization
+  packages: ['dplyr'] # Install R packages on document open
 

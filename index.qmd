@@ -1,13 +1,9 @@
 ---
-title: "Manifold Destiny - or how to rig an election"
-subtitle: "Based upon the ideas developed by Edward K. Solomon"
-output: github_document
-always_allow_html: true
-execute: 
-  cache: false
-filters:
-  - webr
+title: ""
 ---
+
+# Manifold Destiny - or how to rig an election
+**Based upon the ideas developed by Edward K. Solomon**
 
 ![](pngs/md.png)
 
@@ -37,4 +33,7 @@ abc
 ```
 
 
+```{r,echo=F}
+knitr::knit_exit()
+```
 
