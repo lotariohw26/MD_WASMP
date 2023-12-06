@@ -22,8 +22,8 @@ ManifoldDestinyWASM::app0
 
 ```{webr-r}
 # Ar
-arg1 <- ''
-arg2 <- ''
+arg1 <- 'https://raw.githubusercontent.com/lotariohw26/ManifoldDestinyWASM/main/data-raw/abc.csv'
+arg2 <- 'abc.csv'
 # Download a dataset
 download.file(
 arg1,
