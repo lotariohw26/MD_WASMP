@@ -453,12 +453,12 @@ ul.task-list li input[type="checkbox"] {
   let editor;
   require(['vs/editor/editor.main'], function () {
     editor = monaco.editor.create(editorDiv, {
-      value: `webr::install("dplyr", repos = "")
-#webr::install("ManifoldDestinyWASM", repos = "")
-library(TeachingWASM)
-ls(package:TeachingWASM)
-TeachingWASM::hello()
-TeachingWASM::abc`,
+      value: `webr::install("dplyr", repos = "https://lotariohw26.github.io/ManifoldDestinyWASM/repo")
+webr::install("ManifoldDestinyWASM", repos = "https://lotariohw26.github.io/ManifoldDestinyWASM/repo")
+library(ManifoldDestinyWASM)
+ls(package:ManifoldDestinyWASM)
+ManifoldDestinyWASM::hello()
+ManifoldDestinyWASM::app0`,
       language: 'r',
       theme: 'vs-light',
       automaticLayout: true,           // TODO: Could be problematic for slide decks

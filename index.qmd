@@ -10,13 +10,12 @@ To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
 
 ```{webr-r}
-webr::install("dplyr", repos = "")
-#webr::install("ManifoldDestinyWASM", repos = "")
-library(TeachingWASM)
-ls(package:TeachingWASM)
-TeachingWASM::hello()
-TeachingWASM::abc
-
+webr::install("dplyr", repos = "https://lotariohw26.github.io/ManifoldDestinyWASM/repo")
+webr::install("ManifoldDestinyWASM", repos = "https://lotariohw26.github.io/ManifoldDestinyWASM/repo")
+library(ManifoldDestinyWASM)
+ls(package:ManifoldDestinyWASM)
+ManifoldDestinyWASM::hello()
+ManifoldDestinyWASM::app0
 ```
 
 [REPL](https://webr.r-wasm.org/latest/)
