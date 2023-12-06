@@ -31,7 +31,14 @@
     "objectID": "presentation.html#welcome",
     "href": "presentation.html#welcome",
     "title": "Manifold Destiny - or how to rig an election",
-    "section": "Welcome",
-    "text": "Welcome\nThis is a webR-enabled code cell in a Quarto RevealJS document.\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\n\nhttps://lotariohw26.github.io/ManifoldDestinyWASM/"
+    "section": "",
+    "text": "This is a webR-enabled code cell in a Quarto RevealJS document.\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\nknitr::knit_exit()"
+  },
+  {
+    "objectID": "presentation.html",
+    "href": "presentation.html",
+    "title": "Manifold Destiny - or how to rig an election",
+    "section": "",
+    "text": "This is a webR-enabled code cell in a Quarto RevealJS document.\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\nknitr::knit_exit()"
   }
 ]
