@@ -737,15 +737,15 @@ ManifoldDestinyWASM::app0`,
   let editor;
   require(['vs/editor/editor.main'], function () {
     editor = monaco.editor.create(editorDiv, {
-      value: `# Arg
-arg1 <- 'https://raw.githubusercontent.com/joernih/TeachingWASM/main/data-raw/csv/boliger.csv'
-arg2 <- 'boliger.csv'
+      value: `# Ar
+arg1 <- ''
+arg2 <- ''
 # Download a dataset
 download.file(
 arg1,
 arg2
 )
-abc <- read.csv('boliger.csv')
+abc <- read.csv('')
 abc`,
       language: 'r',
       theme: 'vs-light',
