@@ -16,6 +16,14 @@ filters:
 footer: <https://lotariohw26.github.io/ManifoldDestinyWASM/>
 ---
 
+## Welcome
+
+This is a webR-enabled code cell in a Quarto RevealJS document.
+
+```{webr-r}
+2+2
+```
+
 ```{r}
 knitr::knit_exit()
 ```
@@ -35,13 +43,6 @@ library(ManifoldDestiny)
 #bib <- RefManageR::ReadBib(paste0(rprojroot::find_rstudio_root_file(),'/inst/references/man_bib.bib'))
 ```
 
-## Welcome
-
-This is a webR-enabled code cell in a Quarto RevealJS document.
-
-```{webr-r}
-2+2
-```
 
 
 ```{r}

@@ -3,6 +3,8 @@ project:
   type: website
   render:
     - "index.qmd"
+    - "presentation.qmd"
+    - "data.qmd"
     - "laws.qmd"
 
 website:
@@ -11,12 +13,30 @@ website:
     left:
       - text: "Index"
         href: index.qmd
+      - text: "Data"
+        href: data.qmd
       - text: "Presentation"
         href: presentation.qmd
         menu:
           - text: "Manifold Destiny - or how to rig an election" 
           - text: "Addendum 1: Arizona"
           - text: "Addendum 2: Nevada"
+      - text: "Applications"
+        menu:
+          - text: "R2 simulator"
+          #            #href: http://localhost:3838/ManifoldDestiny/r2sim/
+          #            # inst/shinyapp/manimp/app.R
+          - text: "Simulator for the rigging of a natural election"
+          #            #  href: http://localhost:3838/ManifoldDestiny/manimp/
+          #            href: app2_mi.qmd 
+          #            # inst/shinyapp/empapp/app.R
+          - text: "Rigged election results analyzer"
+          #            #  href: http://localhost:3838/ManifoldDestiny/empapp/
+          #            href: app3_ea.qmd 
+          #            # inst/shinyapp/restore/app.R
+          - text: "Restoration of an rigged election"
+          #            #  href: http://localhost:3838/ManifoldDestiny/restore/
+          #            href: app4_ra.qmd 
           - text: "Addendum 3: Bow-shock analysis"
       - text: E-books
         menu:
