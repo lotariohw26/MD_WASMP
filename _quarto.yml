@@ -6,6 +6,7 @@ project:
     - "presentation.qmd"
     - "data.qmd"
     - "laws.qmd"
+    - "man_bib.qmd"
       #    - "app1_r2.qmd"
       #    - "app2_mi.qmd"
       #    - "app3_ea.qmd"
@@ -41,7 +42,7 @@ website:
           - text: "Analysis of the 2020 and 2022 General Elections of Clark and Washoe Counties, Nevada"
             href: https://lotariohw26.github.io/GeneralElectionAnalysis
       - text: Bibliography
-        #  href: man_bib.qmd
+        href: man_bib.qmd
       - text: Appendix
         menu:
           - text: "20 laws and 40 isometries"
@@ -65,4 +66,6 @@ filters:
 webr: 
   show-startup-message: true    # Disable displaying status of webR initialization
   packages: ['dplyr','ggplot2','plotly'] # Install R packages on document open
+
+bibliography: man_bib.bib
 
