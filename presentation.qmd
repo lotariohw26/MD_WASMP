@@ -1,6 +1,7 @@
 ---
 title: "Manifold Destiny - or how to rig an election"
 subtitle: "Based upon the ideas developed by Edward K. Solomon"
+abstract: "Abstract goes here"
 #format: 
 #  html:
 #    page-layout: article
@@ -17,9 +18,11 @@ footer: <https://lotariohw26.github.io/ManifoldDestinyWASM/>
 ---
 
 ```{r}
+library(ManifoldDestiny)
 library(RefManageR)
 library(huxtable)
 library(Hyperinflation)
+modlat <- eqpar$meql
 metad <- jsonlite::fromJSON(paste0(rprojroot::find_rstudio_root_file(),"/data-raw/metadata.json"))
 mda <- jsonlite::fromJSON(paste0(rprojroot::find_rstudio_root_file(),"/data-raw/metadata.json"))
 ```
@@ -40,8 +43,7 @@ Ed. Solomon
   - Number of ballots mode 2: U, V
 
 ```{r, echo=F, message=F, warning=F}
-library(ManifoldDestiny)
-#source(paste0(rprojroot::find_rstudio_root_file(),'/script/simulations.R'))
+source(paste0(rprojroot::find_rstudio_root_file(),'/script/simulations.R'))
 #source(paste0(rprojroot::find_rstudio_root_file(),'/script/applications.R'))
 #RefManageR::BibOptions(check.entries = FALSE, bib.style = "authoryear", style = "markdown", dashed = TRUE)
 #bib <- RefManageR::ReadBib(paste0(rprojroot::find_rstudio_root_file(),'man_bib.bib'))
@@ -53,14 +55,6 @@ library(ManifoldDestiny)
 # `r metad$toc$sec6$nmn`
 # `r metad$toc$sec7$nmn`
 # `r metad$toc$sec8$nmn`
-
-
-```{r}
-knitr::knit_exit()
-```
-
- 
-
 
 
 
@@ -84,10 +78,6 @@ towi[3:4,1] <- ""
 towi[4,2] <- ""
 lego_hux_nor_i <- hux(towi[,1:3]) 
 lego_hux_nor_i 
-```
-
-```{r}
-knitr::knit_exit()
 ```
 
 
@@ -137,6 +127,10 @@ x=`r modlat$x_s[1]` \text{, }y=`r modlat$y_s[1]`
 \begin{equation*}
 \lambda=`r modlat$lamda_s[1]`=`r modlat$lamda_s[2]`
 \end{equation*}
+
+```{r}
+knitr::knit_exit()
+```
 
 ##
 
