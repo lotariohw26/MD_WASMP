@@ -17,8 +17,8 @@
     "objectID": "presentation.html#welcome",
     "href": "presentation.html#welcome",
     "title": "Manifold Destiny - or how to rig an election",
-    "section": "",
-    "text": "This is a webR-enabled code cell in a Quarto RevealJS document.\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\nknitr::knit_exit()"
+    "section": "Welcome",
+    "text": "Welcome\nThis is a webR-enabled code cell in a Quarto RevealJS document.\n\n  🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\n\nhttps://lotariohw26.github.io/ManifoldDestinyWASM/"
   },
   {
     "objectID": "data.html",
@@ -26,5 +26,12 @@
     "title": "Data",
     "section": "",
     "text": "🟡 Loading\n    webR...\n  \n    \n    \n      \n    \n  \n  \n  \n\n\n\n  🟡 Loading\n    webR..."
+  },
+  {
+    "objectID": "presentation.html#setting-up-the-election-system",
+    "href": "presentation.html#setting-up-the-election-system",
+    "title": "Manifold Destiny - or how to rig an election",
+    "section": "Setting up the election system",
+    "text": "Setting up the election system\n\nTwo candidates: A, B\nCounty with three precincts: 1, 2, 3\nTwo modes of voting\n\nNumber of ballots mode 1: S, T\nNumber of ballots mode 2: U, V\n\n\n\n\nhttps://lotariohw26.github.io/ManifoldDestinyWASM/"
   }
 ]
