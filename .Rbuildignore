@@ -4,4 +4,9 @@
 ^\docs$
 ^\archieve$
 ^.*\.qmd$
+^.*\.html$
+^.*\.js$
+^.*\.yml$
+^.*\.bib$
+^.*\.css$
 
