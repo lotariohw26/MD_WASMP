@@ -17,8 +17,7 @@ webr::install("dplyr", repos = "https://lotariohw26.github.io/ManifoldDestinyWAS
 webr::install("ManifoldDestinyWASM", repos = "https://lotariohw26.github.io/ManifoldDestinyWASM/repo")
 library(ManifoldDestinyWASM)
 ls(package:ManifoldDestinyWASM)
-ManifoldDestinyWASM::hello()
-ManifoldDestinyWASM::app0
+print(ManifoldDestinyWASM::ballcastsim(app0))
 ```
 
 [REPL](https://webr.r-wasm.org/latest/)
