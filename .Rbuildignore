@@ -2,11 +2,14 @@
 ^\.Rproj\.user$
 ^\.git$
 ^\docs$
-^\archieve$
 ^.*\.qmd$
 ^.*\.html$
 ^.*\.js$
 ^.*\.yml$
 ^.*\.bib$
 ^.*\.css$
-
+^\repo$
+^\data-raw$
+^\_extensions$
+^\_site$
+^\archieve$
