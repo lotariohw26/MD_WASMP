@@ -32,7 +32,7 @@
     "href": "presentation.html#setting-up-the-election-system",
     "title": "Manifold Destiny - or how to rig an election",
     "section": "Setting up the election system",
-    "text": "Setting up the election system\n\nTwo candidates: A, B\nCounty with three precincts: 1, 2, 3\nTwo modes of voting\n\nNumber of ballots mode 1: S, T\nNumber of ballots mode 2: U, V\n\n\n\n\nhttps://lotariohw26.github.io/ManifoldDestinyWASM/"
+    "text": "Setting up the election system\n\nTwo candidates: A, B\nCounty with three precincts: 1, 2, 3\nTwo modes of voting\n\nNumber of ballots mode 1: S, T\nNumber of ballots mode 2: U, V"
   },
   {
     "objectID": "man_bib.html",
@@ -40,5 +40,40 @@
     "title": "References",
     "section": "",
     "text": "Edward, S. (2020). Clark and Washoe Precinct Analysis. https://docs.google.com/document/d/1TEt-ZqPkX0jcpFLoE6PAbCZh0s8kxFzcsKC_3f0dShk/edit.\nEdward, S. (2022b). Anderson Ruling Rebuttal . https://docs.google.com/document/d/1ywNTOUZuJNB_viiwNuj029HZSzJEJdr7-2AY6n5SKsk/edit#heading=h.lbxjlnrdr0eu.\nEdward, S. (2022a). Clark and Washoe Counties, 2020 and 2022 Elections. https://docs.google.com/document/d/1SCgXpvHwfHJN0T-DdERC3NUQbMlMhOWmRfFjnJs0Ui8/edit#heading=h.lty23tl914ct.\nEdward, S. (2023a). Anderson Ruling Rebuttal. https://docs.google.com/document/d/1ywNTOUZuJNB_viiwNuj029HZSzJEJdr7-2AY6n5SKsk/edit?usp=drive_link.\nEdward, S. (2023b). Least squares regression for 3D data. https://bard.google.com/share/ee16dfd2d48a."
+  },
+  {
+    "objectID": "presentation.html#parametric-tautologies-in-a-election-using-standard-form-north-vs.-south",
+    "href": "presentation.html#parametric-tautologies-in-a-election-using-standard-form-north-vs.-south",
+    "title": "Manifold Destiny - or how to rig an election",
+    "section": "Parametric tautologies in a election using standard form (north vs. south)",
+    "text": "Parametric tautologies in a election using standard form (north vs. south)"
+  },
+  {
+    "objectID": "presentation.html#parametric-tautologies-in-a-election-using-hybrid-form-west-vs.-east",
+    "href": "presentation.html#parametric-tautologies-in-a-election-using-hybrid-form-west-vs.-east",
+    "title": "Manifold Destiny - or how to rig an election",
+    "section": "Parametric tautologies in a election using hybrid form (west vs. east)",
+    "text": "Parametric tautologies in a election using hybrid form (west vs. east)"
+  },
+  {
+    "objectID": "presentation.html#parametric-tautologies-in-a-election-using-opposition-form-upper-diagonal-vs.-lower-diagonal",
+    "href": "presentation.html#parametric-tautologies-in-a-election-using-opposition-form-upper-diagonal-vs.-lower-diagonal",
+    "title": "Manifold Destiny - or how to rig an election",
+    "section": "Parametric tautologies in a election using opposition form (upper diagonal vs. lower diagonal)",
+    "text": "Parametric tautologies in a election using opposition form (upper diagonal vs. lower diagonal)"
+  },
+  {
+    "objectID": "presentation.html#modelling-the-election-process",
+    "href": "presentation.html#modelling-the-election-process",
+    "title": "Manifold Destiny - or how to rig an election",
+    "section": "Modelling the election process",
+    "text": "Modelling the election process\nEd. Solomon\n\n“At the very core of this article lay the assumption of Causality, that the Effect cannot precede the Cause; likewise, the Aggregate Percentage of a Candidate cannot precede the Election Day and the Mail-in Percentages of that candidate."
+  },
+  {
+    "objectID": "presentation.html#setting-up-the-election-system-1",
+    "href": "presentation.html#setting-up-the-election-system-1",
+    "title": "Manifold Destiny - or how to rig an election",
+    "section": "Setting up the election system",
+    "text": "Setting up the election system\n\nTwo candidates: A, B\nCounty with three precincts: 1, 2, 3\nTwo modes of voting\n\nNumber of ballots mode 1: S, T\nNumber of ballots mode 2: U, V\n\n\n\n\nhttps://lotariohw26.github.io/ManifoldDestinyWASM/"
   }
 ]
