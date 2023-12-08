@@ -71,4 +71,4 @@ bibliography: man_bib.bib
 
 # .Rbuildignore
 
-
+# script/simulations.R

@@ -6,10 +6,28 @@ engine: knitr
 ```{webr-r}
 webr::install("ManifoldDestinyWASM", repos = "https://lotariohw26.github.io/ManifoldDestinyWASM/repo")
 library(ManifoldDestinyWASM)
+```
+
+
+
+```{webr-r}
 app0
 ```
 
 ```{webr-r}
 app1
+```
+
+```{webr-r}
+app2
+```
+
+```{webr-r}
+arg1 <- 'https://raw.githubusercontent.com/lotariohw26/ManifoldDestinyWASM/main/data-raw/abc.csv'
+arg2 <- 'abc.csv'
+# Download a dataset
+download.file(arg1,arg2)
+abc <- read.csv('abc.csv')
+abc
 ```
 

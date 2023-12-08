@@ -1,13 +1,14 @@
 ---
 title: "Manifold Destiny - or how to rig an election"
 subtitle: "Based upon the ideas developed by Edward K. Solomon"
+abstract: "Abstract goes here"
 #format: 
 #  html:
 #    page-layout: article
 format:
   revealjs: 
     smaller: true
-    toc-depth: 1
+    toc-depth: 2
     toc: true 
 execute: 
   cache: false
@@ -17,21 +18,17 @@ footer: <https://lotariohw26.github.io/ManifoldDestinyWASM/>
 ---
 
 ```{r}
+library(ManifoldDestiny)
 library(RefManageR)
 library(huxtable)
 library(Hyperinflation)
+modlat <- eqpar$meql
 metad <- jsonlite::fromJSON(paste0(rprojroot::find_rstudio_root_file(),"/data-raw/metadata.json"))
 mda <- jsonlite::fromJSON(paste0(rprojroot::find_rstudio_root_file(),"/data-raw/metadata.json"))
 ```
 
 # `r metad$toc$sec1$nmn`
-
- 
-
-# `r metad$toc$sec1$nmn`
-
-
- Ed. Solomon
+Ed. Solomon
 
 > "At the very core of this article lay the assumption of Causality, that the **Effect cannot precede the Cause**; likewise, the **Aggregate Percentage of a Candidate cannot precede the Election Day and the Mail-in Percentages of that candidate**. 
 
@@ -45,25 +42,22 @@ mda <- jsonlite::fromJSON(paste0(rprojroot::find_rstudio_root_file(),"/data-raw/
   - Number of ballots mode 1: S, T
   - Number of ballots mode 2: U, V
 
-```{r}
-knitr::knit_exit()
-```
-
-
 ```{r, echo=F, message=F, warning=F}
-library(ManifoldDestiny)
-#modlat <- eqpar$meql
-#source(paste0(rprojroot::find_rstudio_root_file(),'/inst/script/simulations.R'))
-#source(paste0(rprojroot::find_rstudio_root_file(),'/inst/script/applications.R'))
+source(paste0(rprojroot::find_rstudio_root_file(),'/script/simulations.R'))
+#source(paste0(rprojroot::find_rstudio_root_file(),'/script/applications.R'))
 #RefManageR::BibOptions(check.entries = FALSE, bib.style = "authoryear", style = "markdown", dashed = TRUE)
-#bib <- RefManageR::ReadBib(paste0(rprojroot::find_rstudio_root_file(),'/inst/references/man_bib.bib'))
+#bib <- RefManageR::ReadBib(paste0(rprojroot::find_rstudio_root_file(),'man_bib.bib'))
 ```
+# `r metad$toc$sec2$nmn`
+# `r metad$toc$sec3$nmn`
+# `r metad$toc$sec4$nmn`
+# `r metad$toc$sec5$nmn`
+# `r metad$toc$sec6$nmn`
+# `r metad$toc$sec7$nmn`
+# `r metad$toc$sec8$nmn`
 
 
 
-```{r}
-knitr::knit_exit()
-```
 
 ##
 
@@ -133,6 +127,10 @@ x=`r modlat$x_s[1]` \text{, }y=`r modlat$y_s[1]`
 \begin{equation*}
 \lambda=`r modlat$lamda_s[1]`=`r modlat$lamda_s[2]`
 \end{equation*}
+
+```{r}
+knitr::knit_exit()
+```
 
 ##
 
