@@ -18,3 +18,5 @@
 ^\pngs$
 ^\site_libs$
 ^\script$
+^\R_S$
+^\Shinyapps$

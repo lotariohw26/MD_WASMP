@@ -1,8 +1,23 @@
 ---
 title: "Our first r-shinylive Quarto document!"
+format:
+  html:
+    grid: 
+      body-width: 1300px
 filters:
   - shinylive
 ---
+
+
+
+```{r}
+2+2
+```
+
+
+
+
+
 
 ```{shinylive-r}
 #| standalone: true
