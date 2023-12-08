@@ -7,7 +7,7 @@ project:
     - "data.qmd"
     - "laws.qmd"
     - "man_bib.qmd"
-      #    - "app1_r2.qmd"
+    - "app1_r2.qmd"
       #    - "app2_mi.qmd"
       #    - "app3_ea.qmd"
       #    - "app4_ra.qmd"
@@ -29,7 +29,7 @@ website:
       - text: "Applications"
         menu:
           - text: "R2 simulator"
-            #            href: app1_r2.qmd
+            href: app1_r2.qmd
           - text: "Simulator for the rigging of a natural election"
             #            href: app2_mi.qmd 
           - text: "Rigged election results analyzer"
