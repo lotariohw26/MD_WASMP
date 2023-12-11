@@ -20,6 +20,7 @@ Published July 22, 2023 at 05:37 AM
 > The fourth problem is that the difference between x and y diverges rapidly over the quantiles of z, meaning that as Republican do better in the early vote, the more they suffer in the mail-in vote. This is also not what we would expect to see in a fair election, as we would expect the two types of votes to be relatively correlated.
 
 
-
-
+```{webr-r}
+2+2
+```
 

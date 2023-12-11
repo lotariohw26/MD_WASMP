@@ -68,7 +68,5 @@ webr:
   packages: ['dplyr','ggplot2','plotly'] # Install R packages on document open
 
 bibliography: man_bib.bib
-
 # .Rbuildignore
-
 # script/simulations.R
