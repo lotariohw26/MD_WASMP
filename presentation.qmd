@@ -17,18 +17,20 @@ filters:
 footer: <https://lotariohw26.github.io/ManifoldDestinyWASM/>
 ---
 
-```{r}
+```{r, echo=F, message=F, warning=F}
 library(ManifoldDestiny)
 library(RefManageR)
 library(huxtable)
-library(Hyperinflation)
 modlat <- eqpar$meql
 metad <- jsonlite::fromJSON(paste0(rprojroot::find_rstudio_root_file(),"/data-raw/metadata.json"))
 mda <- jsonlite::fromJSON(paste0(rprojroot::find_rstudio_root_file(),"/data-raw/metadata.json"))
+source(paste0(rprojroot::find_rstudio_root_file(),'/script/simulations.R'))
+#source(paste0(rprojroot::find_rstudio_root_file(),'/script/applications.R'))
 ```
 
 # `r metad$toc$sec1$nmn`
-Ed. Solomon
+
+ Ed. Solomon
 
 > "At the very core of this article lay the assumption of Causality, that the **Effect cannot precede the Cause**; likewise, the **Aggregate Percentage of a Candidate cannot precede the Election Day and the Mail-in Percentages of that candidate**. 
 
@@ -41,22 +43,6 @@ Ed. Solomon
 - Two modes of voting
   - Number of ballots mode 1: S, T
   - Number of ballots mode 2: U, V
-
-```{r, echo=F, message=F, warning=F}
-source(paste0(rprojroot::find_rstudio_root_file(),'/script/simulations.R'))
-#source(paste0(rprojroot::find_rstudio_root_file(),'/script/applications.R'))
-#RefManageR::BibOptions(check.entries = FALSE, bib.style = "authoryear", style = "markdown", dashed = TRUE)
-#bib <- RefManageR::ReadBib(paste0(rprojroot::find_rstudio_root_file(),'man_bib.bib'))
-```
-# `r metad$toc$sec2$nmn`
-# `r metad$toc$sec3$nmn`
-# `r metad$toc$sec4$nmn`
-# `r metad$toc$sec5$nmn`
-# `r metad$toc$sec6$nmn`
-# `r metad$toc$sec7$nmn`
-# `r metad$toc$sec8$nmn`
-
-
 
 
 ##
@@ -113,7 +99,6 @@ lego_hux_nor %>% set_caption("")
 ```
 
 
-
 Parameters: ** $x$, $y$, $\zeta$, $\alpha$, $\lambda$ **
 \begin{equation*}
 x=`r modlat$x_s[1]` \text{, }y=`r modlat$y_s[1]`
@@ -128,11 +113,9 @@ x=`r modlat$x_s[1]` \text{, }y=`r modlat$y_s[1]`
 \lambda=`r modlat$lamda_s[1]`=`r modlat$lamda_s[2]`
 \end{equation*}
 
-```{r}
-knitr::knit_exit()
-```
-
 ##
+
+
 
 ```{r, echo=F}
 ctone_sf <- 'Election results applying standard form on case I'
@@ -140,7 +123,6 @@ stfo_sel <- dplyr::select(pro_elc_ex1$sdfc[1:3,],P,S,T,U,V,x,y,zeta,alpha,lamda)
 cou_tb <- c("Precinct","S","T","U","V","x","y",'$\\zeta$',"$\\alpha$","$\\lambda$")
 kableExtra::kbl(format(stfo_sel,digits=4),caption=ctone_sf) %>% kableExtra::kable_classic_2(full_width = F) %>% kableExtra::row_spec(1, bold = F)
 ```
-
 
 Numerical calculation of candidate one total percentage
 - Precinct 1
@@ -610,11 +592,11 @@ app_ex3_out[['resp']]
 
 
 ```{r, echo=FALSE, out.width="20%", fig.cap=""}
-p1 <- paste0(rprojroot::find_rstudio_root_file(),'/inst/pngs/ss.png')
+p1 <- paste0(rprojroot::find_rstudio_root_file(),'/pngs/ss.png')
 knitr::include_graphics(c(p1))
 ```
 
-`r Citet(bib, "delfino2011analysis")`
+`r #Citet(bib, "delfino2011analysis")`
 
 > Abstract: On August 15th, **2004**, Venezuelans had the opportunity to vote
 in a Presidential Recall Referendum **to decide whether or not President Hugo
@@ -638,7 +620,7 @@ found to be not only ineffective but a source of suspicion...
 > HYPOTHESIS: **In computerized centers**, official **results were forced to follow a linear relationship** with respect to the number of signatures.
 
 ```{r, echo=FALSE, out.width="85%", fig.cap=""}
-p3 <- paste0(rprojroot::find_rstudio_root_file(),'/inst/pngs/manifold.png')
+p3 <- paste0(rprojroot::find_rstudio_root_file(),'pngs/manifold.png')
 knitr::include_graphics(c(p3))
 ```
 
@@ -653,7 +635,12 @@ knitr::include_graphics(c(p3))
 
 If we can walk through all of the **four** steps here, property 1<sup>st</sup> and 2<sup>nd</sup> that we have stated for a normal election are violated and we can conclude that the estimated Manifold equation is inserted - Manifold Destiny - to distort the outcome of normal election.
 
+```{r}
+knitr::knit_exit()
+```
+
 # `r metad$toc$sec6$nmn`
+
 
 ```{r, echo=FALSE, results='asis',warning=F}
 params <- list(name="1")
@@ -709,13 +696,13 @@ cat(knitr::knit_child(text = paste(text[50:length(text)], collapse = "\n"), quie
 - Condition on that $R^2$ falls within the critical region.
   - Normal form
 ```{r, echo=F, out.width="40%", fig.cap=""}
-pr2n <- paste0(rprojroot::find_rstudio_root_file(),'/inst/pngs/r2n.png')
+pr2n <- paste0(rprojroot::find_rstudio_root_file(),'/pngs/r2n.png')
 knitr::include_graphics(c(pr2n))
 ```
 
  - Hybrid form
 ```{r, echo=F, out.width="40%", fig.cap=""}
-pr2h <- paste0(rprojroot::find_rstudio_root_file(),'/inst/pngs/r2h.png')
+pr2h <- paste0(rprojroot::find_rstudio_root_file(),'/pngs/r2h.png')
 knitr::include_graphics(c(pr2h))
 ```
 
@@ -735,5 +722,6 @@ kableExtra::kbl(concl_appps,col.names=cou_abc) %>% kableExtra::kable_classic_2(f
 ```{r, eval=F}
 knitr::knit_exit()
 ```
+
 
 

@@ -45,7 +45,11 @@ ballcastsim <- function(
   dplyr::mutate(Z=sum(S+T+U+V)) %>%
   dplyr::ungroup() 
 }
-
+#library(dplyr)
+#library(ManifoldDestiny)
+#abc <- ballcastsim(app0)
+#abc
+#ls(package:ManifoldDestiny)
 #' @export r2outgp
 r2outgp <- function(dfr2=gg_df){
 
