@@ -635,12 +635,7 @@ knitr::include_graphics(c(p3))
 
 If we can walk through all of the **four** steps here, property 1<sup>st</sup> and 2<sup>nd</sup> that we have stated for a normal election are violated and we can conclude that the estimated Manifold equation is inserted - Manifold Destiny - to distort the outcome of normal election.
 
-```{r}
-knitr::knit_exit()
-```
-
 # `r metad$toc$sec6$nmn`
-
 
 ```{r, echo=FALSE, results='asis',warning=F}
 params <- list(name="1")
