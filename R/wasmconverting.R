@@ -53,26 +53,26 @@ r2simn <- function(nprec=300,
                  std=c('alpha~n+m','alpha~n+m+xi'))[[form]]
     # Box
     dfb <- data.frame(P=seq(1,nprec)) %>%
-    dplyr::mutate(genreg=10^qnorm(runif(n()),regs[1],regs[2])) %>%
+    dplyr::mutate(genreg=10^qnorm(runif(dplyr::n()),regs[1],regs[2])) %>%
     dplyr::mutate(R=round(ifelse(genreg>minmax[2]|genreg<minmax[1],runif(1,minmax[1],minmax[2]),genreg))) %>%
-    dplyr::mutate(Z=round(R*qnorm(runif(n()),turn[1],turn[2]))) %>%
-    # Form
-    dplyr::mutate(!!paste0('OpT'):=round(Z*rnorm(n(),Invper[1],Invper[2]))) %>%
+    dplyr::mutate(Z=round(R*qnorm(runif(dplyr::n()),turn[1],turn[2]))) %>%
+    # Form 
+    dplyr::mutate(!!paste0('OpT'):=round(Z*rnorm(dplyr::n(),Invper[1],Invper[2]))) %>%
     dplyr::mutate(!!paste0('TpF'):=Z-OpT) %>% dplyr::mutate(gen_u=rnorm(n(),u[1],u[2])) %>%
     dplyr::mutate(gen_v=rnorm(n(),dv[1],dv[2])+gen_u) %>%
     # Ballots
     dplyr::mutate(!!paste0(BL[1]):=round(gen_u*OpT)) %>%
     dplyr::mutate(!!paste0(BL[2]):=round(OpT-S)) %>%
     dplyr::mutate(!!paste0(BL[3]):=round(gen_v*TpF)) %>%
-    dplyr::mutate(!!paste0(BL[4]):=round(TpF-U))
-
+    dplyr::mutate(!!paste0(BL[4]):=round(TpF-U)) 
+    
     dfb2 <- Countingprocess(dfb)$sdfc
 
     # Prediction
-    pe_1 <- stats::predict(lm(as.formula(form[1]),data=dfb2))
-    pe_2 <- stats::predict(lm(as.formula(form[2]),data=dfb2))
+    pe_1 <- stats::predict(lm(as.formula(form[1]),data=dfb2)) 
+    pe_2 <- stats::predict(lm(as.formula(form[2]),data=dfb2)) 
     # Comparison
-    dfc <- dfb2 %>%
+    dfc <- dfb2 %>% 
 	#1 Alpha
 	dplyr::mutate(alpha_hat_1=pe_1) %>%
 	dplyr::mutate(alpha_hat_2=pe_2) %>%
@@ -499,5 +499,132 @@ Countingprocess$methods(manimp=function(init_par=NULL,man=TRUE,wn=c(0,0)){
     opt_lores <- optim(par = init_par, fn = lv, method='L-BFGS-B',lower=c(k0=0,k1=0,k2=0),upper=c(k0=0,k1=0,k2=0))
   }
   rdfc <<- dplyr::select(loss_df,P,R,S,T,U,V) %>% ballcount(se=se)
+})
+######################################################################################################
+Countinggraphs <- setRefClass("Countinggraphs", contains = c('Countingprocess'))
+Countinggraphs$methods(plot2d=function(form=1,
+    				       labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,
+				       alpha=1,size=1)
+				       ){
+  longdf <- tidyr::pivot_longer(quintile,all_of(c(psel,paste0(psel,'_pred'))))
+psel
+  go <- ggplot2::ggplot(data=longdf) +
+    ggplot2::geom_line(data=filter(longdf,name%in%paste0(psel,'_pred')),aes(x=pri,y=value, color=name)) +
+    ggplot2::geom_point(data=filter(longdf,name%in%psel),aes(x=pri,y=value, color=name),size=labs$size,alpha=labs$alpha) + 
+    ggplot2::labs(title=labs$title,x=labs$x,y=labs$y,caption=labs$caption) +
+    ggplot2::ylim(0,1) +
+    ggplot2::theme_bw()
+    pl_2dsort <<- list(go)
+})
+Countinggraphs$methods(plotxy=function(form=1,Pexc=NULL){
+  dfg <- dplyr::select(rdfc,P,parameters[[form]]) %>% dplyr::filter(!P%in%Pexc) %>% dplyr::select(-P)
+  cmb <- combinat::combn(5, 2)
+  pl_corrxy <<- lapply(seq(1,dim(cmb)[2]), function(x){
+    dfn <- names(dfg[cmb[,x]])
+    lim <- apply(dfg,2,max)
+    xl <- max(lim[[1]],1)
+    yl <- max(lim[[2]],1)
+    ggplot2::ggplot(data = dfg, aes(x = !!as.name(dfn[1]), y = !!as.name(dfn[2]))) + geom_point() +
+    ggplot2::geom_smooth(method=lm,se=F,show.legend = F) +
+    xlim(0, xl) +
+    ylim(0, yl) +
+    {if(xl==1&&yl==1) geom_abline(slope = 1, intercept = 0) } +
+    ggplot2::theme_bw()
+  }) 
+})
+Countinggraphs$methods(resplot=function(form=1){
+
+  selvar <- c(paste0(parameters[[form]][c(1,2,4)],'_res'),paste0(parameters[[form]][c(3)],c("","_m","_mr")))
+  dfg <- dplyr::select(quintile,all_of(selvar))
+  cmb <- combinat::combn(3, 2)
+  pl_rescro <<- lapply(seq(1,dim(cmb)[2]), function(x){
+    ggplot2::ggplot(data=dfg,aes(x=selvar[3],y=selvar[3+x])) +
+    ggplot2::geom_point() +
+    ggplot2::geom_smooth(method=lm,se=F,show.legend = F) +
+    ggplot2::labs(x='x',y='y',title="") 
+    })
+})
+Countinggraphs$methods(plotly3d=function(
+					 partition=1,
+					 sel=list(1:5,6:10),
+					 selid=1
+					 ){
+
+  rdfcpar <- rdfc %>% dplyr::select(parameters[[partition]][c(4,5,1,2,3)])
+  mrdfc <- as.matrix(rdfcpar)
+  combi <- combinat::combn(5, 3)
+  seq(1,dim(combi)[2]) %>% purrr::map(function(x,comb=combi,df=rdfcpar){
+    gdf <- df %>% dplyr::select(combi[,x])
+    mrdfc <- as.matrix(gdf)
+    z <- mrdfc[,1]
+    x <- mrdfc[,2]
+    y <- mrdfc[,3]
+    plotly::plot_ly(x = x, y = y, z = z, type = "scatter3d", mode = "markers", marker = list(size = 3)) %>%
+      plotly::layout(
+		     title =paste0('R2 = ',round(summary(lm(data=gdf))$r.squared,4)), 
+		     scene = 
+      list(xaxis = list(title = names(gdf)[1]),
+	   text='abc',
+      yaxis  = list(title = names(gdf)[2]),
+      zaxis  = list(title = names(gdf)[3]))) 
+  }) ->> pl_3d_mani
+
+})
+Countinggraphs$methods(rotgraph=function(){
+  u0 <- rofc$u0
+  v0 <- rofc$v0
+  w0 <- rofc$w0
+  u1 <- rofc$u1
+  v1 <- rofc$v1
+  w1 <- rofc$w1
+  u2 <- rofc$u2
+  v2 <- rofc$v2
+  w2 <- rofc$w2
+  u3 <- rofc$u3
+  v3 <- rofc$v3
+  w3 <- rofc$w3
+  # Creating the 3D scatter plot
+  rotplotly <<- list(plot_ly(type = "scatter3d", mode = "markers", marker = list(size = 3)) %>%
+    add_trace(
+      x = u0,
+      y = v0,
+      z = w0,
+      mode = "markers",
+      type = "scatter3d",
+      marker = list(color = "green")
+   ) %>%
+    add_trace(
+      x = u1,
+      y = v1,
+      z = w1,
+      mode = "markers",
+      type = "scatter3d",
+      marker = list(color = "blue")
+    ) %>%
+    add_trace(
+      x = u2,
+      y = v2,
+      z = w2,
+      mode = "markers",
+      type = "scatter3d",
+      marker = list(color = "yellow")
+    ) %>%
+    add_trace(
+      x = u3,
+      y = v3,
+      z = w3,
+      mode = "markers",
+      type = "scatter3d",
+      marker = list(color = "red")
+    ) %>%
+    layout(scene = list(aspectmode = "cube")))
+})
+Countinggraphs$methods(gridarrange=function(pl3d=list(selo=1,selm=list(1:5,6:10))){
+
+  ohtml <- div(class="row", style = "display: flex; flex-wrap: wrap; justify-content: center",
+  	 div(pl_3d_mani[pl3d$selm[[1]]],class="column"),
+  	 div(pl_3d_mani[pl3d$selm[[2]]],class="column"))
+
+  all_pl_3d_mani <<- list(page=htmltools::browsable(ohtml),ohtml=ohtml,one3d=pl_3d_mani,plot2d=pl_2dsort,plotxy=pl_corrxy,plotres=pl_rescro,r2list=r2list,sr=sumreg,abc=rotplotly)
 })
 
