@@ -1,4 +1,3 @@
-#' @import ManifoldDestiny
 #' @export ballcastsim
 ballcastsim <- function(
   dfm=(function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10),
@@ -108,7 +107,6 @@ SimVoterdatabase$methods(initialize=function(initdf=NULL){
 })
 SimVoterdatabase$methods(r2sim=function(rept=10,form=1)
 {
-    #ManifoldDestiny::stickers[[1]][[form]]
     #$standard
     #[1] "x"     "y"     "zeta"  "alpha" "lamda"
     #$hybrid
