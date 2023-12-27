@@ -2,4 +2,3 @@
 
 export(ballcastsim)
 export(hello)
-export(r2outgp)
