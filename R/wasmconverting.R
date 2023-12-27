@@ -157,42 +157,42 @@ ballcastsim <- function(
 #    scale_fill_manual(values = c("#0072b2", "#e69f00"))  # set fill colors
 #})
 #
-#############################
+#########################################################################################################################################
 ##' @export Rall
-#Rall <- function(sel=c(1,2,3)){
-#  Rxy <- function(rad) {
-#    matrix(c(cos(rad), sin(rad), 0,
-#             -sin(rad), cos(rad), 0,
-#             0, 0, 1), ncol = 3)
-#  }
-#  Rxz <- function(rad) {
-#    matrix(c(cos(rad), 0, sin(rad),
-#             0, 1, 0,
-#            -sin(rad), 0, cos(rad)), ncol = 3)
-#  }
-#  Ryx <- function(rad) {
-#    matrix(c(cos(rad), sin(rad), 0,
-#             -sin(rad), cos(rad), 0,
-#             0, 0, 1), ncol = 3)
-#  }
-#  Ryz <- function(rad) {
-#    matrix(c(1, 0, 0,
-#             0, cos(rad), sin(rad),
-#             0, -sin(rad), cos(rad)), ncol = 3)
-#  }
-#  Rzx <- function(rad) {
-#    matrix(c(cos(rad), 0, sin(rad),
-#             0, 1, 0,
-#            -sin(rad), 0, cos(rad)), ncol = 3)
-#  }
-#  Rzy <- function(rad) {
-#    matrix(c(1, 0, 0,
-#             0, cos(rad), sin(rad),
-#             0, -sin(rad), cos(rad)), ncol = 3)
-#  }
-#    allrot <- list(Rxy,Rxz,Ryx,Ryz,Rzx,Rzy)[sel]
-#}
-#
+Rall <- function(sel=c(1,2,3)){
+  Rxy <- function(rad) {
+    matrix(c(cos(rad), sin(rad), 0,
+             -sin(rad), cos(rad), 0,
+             0, 0, 1), ncol = 3)
+}
+Rxz <- function(rad) {
+    matrix(c(cos(rad), 0, sin(rad),
+             0, 1, 0,
+            -sin(rad), 0, cos(rad)), ncol = 3)
+}
+Ryx <- function(rad) {
+    matrix(c(cos(rad), sin(rad), 0,
+             -sin(rad), cos(rad), 0,
+             0, 0, 1), ncol = 3)
+}
+Ryz <- function(rad) {
+    matrix(c(1, 0, 0,
+             0, cos(rad), sin(rad),
+             0, -sin(rad), cos(rad)), ncol = 3)
+}
+Rzx <- function(rad) {
+   matrix(c(cos(rad), 0, sin(rad),
+             0, 1, 0,
+            -sin(rad), 0, cos(rad)), ncol = 3)
+}
+Rzy <- function(rad) {
+    matrix(c(1, 0, 0,
+             0, cos(rad), sin(rad),
+             0, -sin(rad), cos(rad)), ncol = 3)
+  }
+    allrot <- list(Rxy,Rxz,Ryx,Ryz,Rzx,Rzy)[sel]
+}
+
 ##' @export erotation
 #erotation <-function(
 #		     dfe=NULL,
@@ -257,32 +257,32 @@ ballcastsim <- function(
 #    dplyr::ungroup() 
 #  rootdf[[svar]]
 #}
-##' @export ballcount
-#ballcount <- function(ballotsdf=NULL,se=se){
-#  # Assigning model equations
-#  sdfc <<- ballotsdf %>% 
-#    #dplyr::select(P,all_of(selvar))  
-#    dplyr::mutate(Z=S+T+U+V) %>%
-#    dplyr::mutate(O=R-Z) %>%
-#    dplyr::mutate(x=pareq(se[['x_s']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(y=pareq(se[['y_s']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(g=pareq(se[['g_h']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(h=pareq(se[['h_h']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(m=pareq(se[['m_o']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(n=pareq(se[['n_o']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(alpha=pareq(se[['alpha_s']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(zeta=pareq(se[['zeta_s']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(lamda=pareq(se[['lamda_s']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(Omega=pareq(se[['Omega_h']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(Gamma=pareq(se[['Gamma_h']][1],as.list(.[,]))) %>%
-#    dplyr::mutate(xi=pareq(se[['xi_o']][1],as.list(.[,]))) 
-#    #!%>% na.omit()  
-#}
-##' @export pareq
-#pareq <- function(ste='(x + y*zeta)/(zeta + 1)',lv=list(x=0.75,y=0.25,zeta=1)){
-#	eval(parse(text=ste),lv)
-#}
-##' @export vpareq
+#' @export ballcount
+ballcount <- function(ballotsdf=NULL,se=se){
+  # Assigning model equations
+  sdfc <<- ballotsdf %>% 
+    #dplyr::select(P,all_of(selvar))  
+    dplyr::mutate(Z=S+T+U+V) %>%
+    dplyr::mutate(O=R-Z) %>%
+    dplyr::mutate(x=pareq(se[['x_s']][1],as.list(.[,]))) %>%
+    dplyr::mutate(y=pareq(se[['y_s']][1],as.list(.[,]))) %>%
+    dplyr::mutate(g=pareq(se[['g_h']][1],as.list(.[,]))) %>%
+    dplyr::mutate(h=pareq(se[['h_h']][1],as.list(.[,]))) %>%
+    dplyr::mutate(m=pareq(se[['m_o']][1],as.list(.[,]))) %>%
+    dplyr::mutate(n=pareq(se[['n_o']][1],as.list(.[,]))) %>%
+    dplyr::mutate(alpha=pareq(se[['alpha_s']][1],as.list(.[,]))) %>%
+    dplyr::mutate(zeta=pareq(se[['zeta_s']][1],as.list(.[,]))) %>%
+    dplyr::mutate(lamda=pareq(se[['lamda_s']][1],as.list(.[,]))) %>%
+    dplyr::mutate(Omega=pareq(se[['Omega_h']][1],as.list(.[,]))) %>%
+    dplyr::mutate(Gamma=pareq(se[['Gamma_h']][1],as.list(.[,]))) %>%
+    dplyr::mutate(xi=pareq(se[['xi_o']][1],as.list(.[,]))) 
+    #!%>% na.omit()  
+}
+#' @export pareq
+pareq <- function(ste='(x + y*zeta)/(zeta + 1)',lv=list(x=0.75,y=0.25,zeta=1)){
+	eval(parse(text=ste),lv)
+}
+#' @export vpareq
 #vpareq <- function(dfr=NULL,enf=NULL,ste=NULL)({
 #  dfr %>% dplyr::mutate(!!enf:=pareq(ste=ste,lv=as.list(.[,]))) %>% dplyr::select(any_of(enf)) %>% as.vector()
 #})
