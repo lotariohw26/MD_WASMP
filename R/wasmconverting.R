@@ -56,7 +56,7 @@ r2simn <- function(nprec=300,
     dplyr::mutate(genreg=10^qnorm(runif(dplyr::n()),regs[1],regs[2])) %>%
     dplyr::mutate(R=round(ifelse(genreg>minmax[2]|genreg<minmax[1],runif(1,minmax[1],minmax[2]),genreg))) %>%
     dplyr::mutate(Z=round(R*qnorm(runif(dplyr::n()),turn[1],turn[2]))) %>%
-    # Form 
+    # Form
     dplyr::mutate(!!paste0('OpT'):=round(Z*rnorm(dplyr::n(),Invper[1],Invper[2]))) %>%
     dplyr::mutate(!!paste0('TpF'):=Z-OpT) %>% dplyr::mutate(gen_u=rnorm(n(),u[1],u[2])) %>%
     dplyr::mutate(gen_v=rnorm(n(),dv[1],dv[2])+gen_u) %>%
@@ -64,15 +64,15 @@ r2simn <- function(nprec=300,
     dplyr::mutate(!!paste0(BL[1]):=round(gen_u*OpT)) %>%
     dplyr::mutate(!!paste0(BL[2]):=round(OpT-S)) %>%
     dplyr::mutate(!!paste0(BL[3]):=round(gen_v*TpF)) %>%
-    dplyr::mutate(!!paste0(BL[4]):=round(TpF-U)) 
-    
+    dplyr::mutate(!!paste0(BL[4]):=round(TpF-U))
+
     dfb2 <- Countingprocess(dfb)$sdfc
 
     # Prediction
-    pe_1 <- stats::predict(lm(as.formula(form[1]),data=dfb2)) 
-    pe_2 <- stats::predict(lm(as.formula(form[2]),data=dfb2)) 
+    pe_1 <- stats::predict(lm(as.formula(form[1]),data=dfb2))
+    pe_2 <- stats::predict(lm(as.formula(form[2]),data=dfb2))
     # Comparison
-    dfc <- dfb2 %>% 
+    dfc <- dfb2 %>%
 	#1 Alpha
 	dplyr::mutate(alpha_hat_1=pe_1) %>%
 	dplyr::mutate(alpha_hat_2=pe_2) %>%
@@ -265,7 +265,7 @@ ballcount <- function(ballotsdf=NULL,se=se){
 pareq <- function(ste='(x + y*zeta)/(zeta + 1)',lv=list(x=0.75,y=0.25,zeta=1)){
 	eval(parse(text=ste),lv)
 }
-
+############################################################################################################################################################
 ############################################################################################################################################################
 #' @export Countingprocess
 Countingprocess <- setRefClass("Countingprocess",
@@ -359,8 +359,6 @@ Countingprocess$methods(rotation=function(selvar=c('x','y','alpha'),
   rdfc <<- dfe
 
 })
-
-
 
 Countingprocess$methods(plext=function(){
   #! automized
@@ -500,7 +498,9 @@ Countingprocess$methods(manimp=function(init_par=NULL,man=TRUE,wn=c(0,0)){
   }
   rdfc <<- dplyr::select(loss_df,P,R,S,T,U,V) %>% ballcount(se=se)
 })
-######################################################################################################
+############################################################################################################################################################
+############################################################################################################################################################
+#' @export Countinggraphs
 Countinggraphs <- setRefClass("Countinggraphs", contains = c('Countingprocess'))
 Countinggraphs$methods(plot2d=function(form=1,
     				       labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,
@@ -510,7 +510,7 @@ Countinggraphs$methods(plot2d=function(form=1,
 psel
   go <- ggplot2::ggplot(data=longdf) +
     ggplot2::geom_line(data=filter(longdf,name%in%paste0(psel,'_pred')),aes(x=pri,y=value, color=name)) +
-    ggplot2::geom_point(data=filter(longdf,name%in%psel),aes(x=pri,y=value, color=name),size=labs$size,alpha=labs$alpha) + 
+    ggplot2::geom_point(data=filter(longdf,name%in%psel),aes(x=pri,y=value, color=name),size=labs$size,alpha=labs$alpha) +
     ggplot2::labs(title=labs$title,x=labs$x,y=labs$y,caption=labs$caption) +
     ggplot2::ylim(0,1) +
     ggplot2::theme_bw()
@@ -530,7 +530,7 @@ Countinggraphs$methods(plotxy=function(form=1,Pexc=NULL){
     ylim(0, yl) +
     {if(xl==1&&yl==1) geom_abline(slope = 1, intercept = 0) } +
     ggplot2::theme_bw()
-  }) 
+  })
 })
 Countinggraphs$methods(resplot=function(form=1){
 
@@ -541,7 +541,7 @@ Countinggraphs$methods(resplot=function(form=1){
     ggplot2::ggplot(data=dfg,aes(x=selvar[3],y=selvar[3+x])) +
     ggplot2::geom_point() +
     ggplot2::geom_smooth(method=lm,se=F,show.legend = F) +
-    ggplot2::labs(x='x',y='y',title="") 
+    ggplot2::labs(x='x',y='y',title="")
     })
 })
 Countinggraphs$methods(plotly3d=function(
@@ -561,12 +561,12 @@ Countinggraphs$methods(plotly3d=function(
     y <- mrdfc[,3]
     plotly::plot_ly(x = x, y = y, z = z, type = "scatter3d", mode = "markers", marker = list(size = 3)) %>%
       plotly::layout(
-		     title =paste0('R2 = ',round(summary(lm(data=gdf))$r.squared,4)), 
-		     scene = 
+		     title =paste0('R2 = ',round(summary(lm(data=gdf))$r.squared,4)),
+		     scene =
       list(xaxis = list(title = names(gdf)[1]),
 	   text='abc',
       yaxis  = list(title = names(gdf)[2]),
-      zaxis  = list(title = names(gdf)[3]))) 
+      zaxis  = list(title = names(gdf)[3])))
   }) ->> pl_3d_mani
 
 })
