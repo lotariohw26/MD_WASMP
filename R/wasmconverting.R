@@ -1,3 +1,66 @@
+#########################################################################################################################################
+##' @export selreport
+selreport <- function(
+		      baldata=NULL,
+		      md=NULL
+		      ){
+
+  frm <- md$mtd$sgs$fr
+  rparv <- md$mtd$sgs$ro ; names(rparv) <- c("theta","phi","rho")
+  co <- Countinggraphs(baldata)
+  if (md$mtd$prg$cnd==1) co$purging(md$mtd,1)
+  co$sortpre(frm)
+  co$descriptive(frm)
+  co$r2siminput(frm)
+  co$plot2d(frm)
+  co$plotxy(frm)
+  co$resplot(frm)
+  co$plotly3d(partition=frm)
+  co$gridarrange()
+  #co$rotation(selvar=c('Z','S','V'), 
+  #	    rpar=rparv,
+  #	    rs=c(1,4,2),
+  #	    mmeanv=c(710.76471,257.67059,151.07059),
+  #	    sli=50)
+  #co$rotation(rpar=rparv)
+  co$rotgraph()
+  ges <- Estimation(co$rdfc,frm)
+  ges$regression(md$mtd$sgs$eq)
+  #ges$hat_predict(md$mtd$sgs$va,as.numeric(md$mtd$sgs$fr))
+  ges$diagnostics()
+  #ges$hat_intcomp()
+  ### Identify
+  ies <- Estimation(co$rdfc,frm)
+  ies$regression(md$mtd$sgs$eq)
+  ies$diagnostics()
+  ## Identify
+  ### Bowplot
+  cob <- Countinggraphs(baldata,selvar=names(baldata))
+  cob$sortpre(4,3)
+  cob$plot2d(4,labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,alpha=0.4,size=0.5))
+  return(list(co=co,ges=ges,ies=ies,md=baldata[[2]],cb=cob,md=md))
+}
+##' @export seloutput
+seloutput <- function(selreport=NULL){
+  tab0 <- selreport[[1]]$rdfc
+  tab1 <- selreport[[1]]$desms
+  tab2 <- selreport[[1]]$pl_corrxy[[1]]
+  tab3 <- selreport[[1]]$pl_2dsort[[1]]
+  tab4 <- selreport[[1]]$pl_3d_mani[[4]]
+  tab5 <- selreport[[1]]$r2list
+  tab6 <- list(summary(selreport[[2]]$regsum[[1]]))
+  l1 <- selreport[[2]]$resplots[[1]][[1]]
+  l2 <- selreport[[2]]$resplots[[1]][[2]]
+  l3 <- selreport[[2]]$resplots[[1]][[3]]
+  l4 <- selreport[[2]]$resplots[[1]][[4]]
+  tab7 <- cowplot::plot_grid(plotlist=list(l1,l2,l3,l4))
+  tab8 <- selreport[[2]]$comdesc
+  tab9 <- selreport[[4]]
+  tab10 <- selreport[[5]]$pl_2dsort
+  tab11 <- selreport[[6]]
+  list(rdfc=tab0,decs=tab1,corxy=tab2,qunt=tab3,ro3d=tab4,r2li=tab5,regr=tab6,resp=tab7,cmp=tab8,md=tab9,bb=tab10,md=tab11)
+}
+#########################################################################################################################################
 #' @export ballcastsim
 ballcastsim <- function(
   dfm=(function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10),
@@ -627,4 +690,3 @@ Countinggraphs$methods(gridarrange=function(pl3d=list(selo=1,selm=list(1:5,6:10)
 
   all_pl_3d_mani <<- list(page=htmltools::browsable(ohtml),ohtml=ohtml,one3d=pl_3d_mani,plot2d=pl_2dsort,plotxy=pl_corrxy,plotres=pl_rescro,r2list=r2list,sr=sumreg,abc=rotplotly)
 })
-
