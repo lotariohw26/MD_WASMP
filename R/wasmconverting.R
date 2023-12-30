@@ -24,21 +24,21 @@ selreport <- function(
   #	    sli=50)
   #co$rotation(rpar=rparv)
   co$rotgraph()
-  ges <- Estimation(co$rdfc,frm)
-  ges$regression(md$mtd$sgs$eq)
-  #ges$hat_predict(md$mtd$sgs$va,as.numeric(md$mtd$sgs$fr))
-  ges$diagnostics()
-  #ges$hat_intcomp()
+  #ges <- Estimation(co$rdfc,frm)
+  #ges$regression(md$mtd$sgs$eq)
+  ##ges$hat_predict(md$mtd$sgs$va,as.numeric(md$mtd$sgs$fr))
+  #ges$diagnostics()
+  ##ges$hat_intcomp()
+  #### Identify
+  #ies <- Estimation(co$rdfc,frm)
+  #ies$regression(md$mtd$sgs$eq)
+  #ies$diagnostics()
   ### Identify
-  ies <- Estimation(co$rdfc,frm)
-  ies$regression(md$mtd$sgs$eq)
-  ies$diagnostics()
-  ## Identify
-  ### Bowplot
-  cob <- Countinggraphs(baldata,selvar=names(baldata))
-  cob$sortpre(4,3)
-  cob$plot2d(4,labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,alpha=0.4,size=0.5))
-  return(list(co=co,ges=ges,ies=ies,md=baldata[[2]],cb=cob,md=md))
+  #### Bowplot
+  #cob <- Countinggraphs(baldata,selvar=names(baldata))
+  #cob$sortpre(4,3)
+  #cob$plot2d(4,labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,alpha=0.4,size=0.5))
+  return(list(co=co,ges=ges,ies=ies,md=baldata[[2]],cb=cob,md=md)[c(1,2,3)]
 }
 ##' @export seloutput
 seloutput <- function(selreport=NULL){
