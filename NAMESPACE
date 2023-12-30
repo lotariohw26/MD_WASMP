@@ -2,6 +2,7 @@
 
 export(Countinggraphs)
 export(Countingprocess)
+export(Estimation)
 export(Rall)
 export(SimVoterdatabase)
 export(ballcastsim)
@@ -12,3 +13,5 @@ export(pareq)
 export(r2simn)
 export(seloutput)
 export(selreport)
+export(strform)
+export(totwomodes)
