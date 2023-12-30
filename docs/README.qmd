@@ -1,22 +1,55 @@
-#######################################################################################################################################################
+---
+title: ""
+engine: knitr
+filters:
+  - webr
+---
+
+About this site
+
+<head>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<p>
+    Here's a simple Plotly plot - 
+    <a href="https://bit.ly/1Or9igj">plotly.js documentation</a>
+</p>
+
+<!-- Plots go in blank <div> elements. 
+    You can size them in the plot layout,
+    or give the div a size as shown here.
+-->
+<div id="tester" style="width:90%;height:250px;"></div>
+
+
+
+Resources
+
+```{webr-r}
+webr::install("ManifoldDestinyWASMP", repos = "https://lotariohw26.github.io/MD_WASMC")
+webr::install("ManifoldDestinyWASMD", repos = "https://lotariohw26.github.io/MD_WASMC")
+webr::install(c("kableExtra","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
 library(ManifoldDestinyWASMP)
-library(ManifoldDestinyWASMD)
-library(dplyr)
-library(ggplot2)
-library(htmltools)
-library(plotly)
-options(scipen=999)
-set.seed(1)
-#library(kableExtra)
-#library(huxtable)
-#library(gridExtra)
-source(paste0(rprojroot::find_rstudio_root_file(),'/R/wasmconverting.R'))
 ls(package:ManifoldDestinyWASMP)
+library(ManifoldDestinyWASMD)
+ls(package:ManifoldDestinyWASMD)
+library(magrittr)
 md <- ManifoldDestinyWASMD::metad
-#########################################################################################################################################################
-dfm <- ManifoldDestinyWASMD::app0 %>% dplyr::select(P,R,S,T,U,V)
-#########################################################################################################################################################
-##### Proto example 1 and 2
+options(browser="brave")
+options(editor="nvim")
+
+```
+
+```{webr-r}
+kableExtra::kbl(head(iris))
+```
+    
+
+
+
+```{webr-r}
 P  <- c(1,2,3,4,5,6)
 S  <- c(60,60,60,60,60,55)
 T  <- c(40,40,40,40,40,40)
@@ -55,6 +88,9 @@ towii <- as.data.frame(ex2m) %>%
 towii[3:4,1] <- ""
 towii[4,2] <- ""
 #########################################################################################################################################################
+```
+
+```{webr-r}
 ###### Normal 
 ######## R2 sim
 dfm <- (function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10)
@@ -80,56 +116,18 @@ clambda <- round(pro_elc_ex1$sdfc$lamda,2)
 cg <- round(pro_elc_ex1$sdfc$g,2)
 ch <- round(pro_elc_ex1$sdfc$y,2)
 cGamma <- round(pro_elc_ex1$sdfc$Gamma,2)
-##########################################################################################################################################################
-##########################################################################################################################################################
-########## Normal form
+```
+
+```{webr-r}
 app_n_rep <- selreport(app_bal,md$app0)
 app_n_out <- seloutput(app_n_rep)
 app_n_sim <- SimVoterdatabase(app_bal)
 ######## Rigged example 1: standard form
 app_ex1_cou <- Countinggraphs(app_bal)
-##print(app_ex1_cou$polyc[[1]][[1]])
-#app_ex1_cou$sortpre()
-#app_ex1_cou$mansys(sygen=list(frm=1,pre=c("alpha","x","y"),end=c("zeta","lamda"),me=c(plnr=1,rot=0)))
-##app_ex1_cou$setres(NULL,0)
-#app_ex1_cou$setres(0.23,0)
-#app_ex1_cou$manimp(init_par=c(k0=0.0,k1=0.5,k2=0.5),TRUE,wn=c(0,0))
-app_ex1_out <- seloutput(selreport(app_ex1_cou$rdfc,md$app0))
-app_ex1_sim <- SimVoterdatabase(app_ex1_cou$rdfc)
-######### Rigged example 2: hybrid form
-app_ex2_cou <- Countinggraphs(app_bal)
-pri_int_ex2 <- app_ex2_cou$polyc[[1]][[1]]
-##print(app_ex2_cou$polyc[[1]][[1]])
-app_ex2_cou$sortpre()
-#app_ex2_cou$mansys(sygen=list(frm=2,pre=c("alpha","g","h"),end=c("Gamma","Omega"),FALSE,me=c(plnr=1,rot=0)))
-#app_ex2_cou$setres(NULL,0)
-#app_ex2_cou$setres(0.23,0)
-#app_ex2_cou$manimp(init_par=c(k0=0.0,k1=0.5,k2=0.5),wn=c(0,0))
-#app_ex2_out <- seloutput(selreport(app_ex2_cou$rdfc,md$app0))
-#app_ex2_sim <- SimVoterdatabase(app_ex2_cou$rdfc)
-####### Rigged example 3: Hybrid form
-app_ex3_cou <- Countinggraphs(app_bal)
-pri_int_ex3 <- app_ex3_cou$polyc[[1]][[1]]
-#app_ex3_cou$sortpre()
-#app_ex3_cou$mansys(sygen=list(frm=1,pre=c("alpha","x","y"),end=c("zeta","lamda"),me=c(plnr=1,rot=0)))
-#app_ex3_cou$setres(NULL,0)
-#app_ex3_cou$setres(0.23,0)
-#app_ex3_cou$manimp(init_par=c(k0=0.0,k1=0.5,k2=0.5),wn=c(0,0))
-#app_ex3_out <- seloutput(selreport(app_ex3_cou$rdfc,md$app0))
-#app_ex3_sim <- SimVoterdatabase(app_ex3_cou$rdfc)
-#####################################################################################################################################################################
-##### Standard
-###################################################################################################################################################################
-####### Dr. Frank
-####countys <- seq(1,88)
-####polinclude <- c(1,2,6)
-####polreport <- 3
-####tdf <- ManifoldDestiny::Voterrollreport()
-####tdf$regvbase()
-####tdf$scorecard()
-####tdf$predictinput()
-################################################################################################################################################################
-######## Concluding Tabl
+```
+
+
+```{webr-r}
 ctone <-'Applications'
 formved <- c('Opposition', 
 	     'Opposition', 
@@ -147,3 +145,5 @@ concl_appps <- data.frame(case=casevec,
 			  propn=prope_vec, 
 			  propv=propv_vec)
 ##################################################################################################################################################################
+```
+

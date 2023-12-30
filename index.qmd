@@ -1,7 +1,157 @@
 ---
-title: "."
+title: ""
+engine: knitr
+filters:
+  - webr
 ---
+
+
+
 
 This is a Quarto website.
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+
+About this site
+
+<head>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<p>
+    Here's a simple Plotly plot - 
+    <a href="https://bit.ly/1Or9igj">plotly.js documentation</a>
+</p>
+
+<!-- Plots go in blank <div> elements. 
+    You can size them in the plot layout,
+    or give the div a size as shown here.
+-->
+<div id="tester" style="width:90%;height:250px;"></div>
+
+
+
+Resources
+
+```{webr-r}
+webr::install("ManifoldDestinyWASMP", repos = "https://lotariohw26.github.io/MD_WASMC")
+webr::install("ManifoldDestinyWASMD", repos = "https://lotariohw26.github.io/MD_WASMC")
+webr::install(c("kableExtra","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
+library(ManifoldDestinyWASMP)
+ls(package:ManifoldDestinyWASMP)
+library(ManifoldDestinyWASMD)
+ls(package:ManifoldDestinyWASMD)
+library(magrittr)
+md <- ManifoldDestinyWASMD::metad
+options(browser="brave")
+options(editor="nvim")
+
+```
+
+```{webr-r}
+kableExtra::kbl(head(iris))
+```
+    
+
+
+
+```{webr-r}
+P  <- c(1,2,3,4,5,6)
+S  <- c(60,60,60,60,60,55)
+T  <- c(40,40,40,40,40,40)
+U  <- c(40,40,40,40,40,40)
+V  <- c(60,60,60,40,40,40)
+Up <- c(40,(40-5),(40-10),40,40,40)
+Vp <- c(60,(60+5),(60+10),40,40,40)
+R  <- c(200,200,200,200,200,200)
+
+## Tower 1
+ex1m <- as.matrix(cbind(S,T,U,V))
+towi <- as.data.frame(ex1m) %>% 
+  dplyr::mutate(EDVst=paste0(.[,1],"/",.[,2])) %>%
+  dplyr::mutate(MIVst_1=paste0(.[1,3],"/",.[1,4])) %>%
+  dplyr::mutate(MIVst_2=paste0(.[2,3],"/",.[2,4])) %>%
+  dplyr::mutate(MIVst_3=paste0(.[3,3],"/",.[3,4])) %>%
+  dplyr::select(5:8) %>%
+  t() %>%
+  data.frame() %>%
+  data.table::setnames(paste0("County_",1:6))
+
+towi[3:4,1] <- ""
+towi[4,2] <- ""
+
+## Tower 2
+ex2m <- as.matrix(cbind(S,T,Up,Vp))
+towii <- as.data.frame(ex2m) %>% 
+  dplyr::mutate(EDVst=paste0(.[,1],"/",.[,2])) %>%
+  dplyr::mutate(MIVst_1=paste0(.[1,3],"/",.[1,4])) %>%
+  dplyr::mutate(MIVst_2=paste0(.[2,3],"/",.[2,4])) %>%
+  dplyr::mutate(MIVst_3=paste0(.[3,3],"/",.[3,4])) %>%
+  dplyr::select(5:8) %>%
+  t() %>%
+  data.frame() %>%
+  data.table::setnames(paste0("County_",1:6))
+towii[3:4,1] <- ""
+towii[4,2] <- ""
+#########################################################################################################################################################
+```
+
+```{webr-r}
+###### Normal 
+######## R2 sim
+dfm <- (function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10)
+probw <- c(m=0.51,s=0.10)
+probva <- c(vdm=0.7,mdm=0.4,vds=0.10,mds=0.10)
+probvb <- c(vdm=0.5,mdm=0.6,vds=0.10,mds=0.10)
+ztech <- c(0,1)	
+app_bal <- ballcastsim(dfm,probw,probva,probvb,ztech)
+#########################################################################################################################################################
+pro_rec_ex1_e <- data.frame(P=c(1,2,3,4,5,6),S=S,T=T,U=U,V=V,R=R)
+pro_rec_ex2_e <- data.frame(P=c(1,2,3,4,5,6),S=S,T=T,U=Up,V=Vp,R=R) 
+pro_rec_ex1 <- pro_rec_ex1_e[1:3,]
+pro_rec_ex2 <- pro_rec_ex2_e[1:3,]
+pro_elc_ex1 <- Countinggraphs(pro_rec_ex1,polyn=1)
+pro_elc_ex2 <- Countinggraphs(pro_rec_ex2,polyn=1)
+#pr_rep_1 <- seloutput <- seloutput(selreport(pro_elc_ex1,md$app4))
+#pr_rep_2 <- seloutput <- seloutput(selreport(pro_elc_ex2,md$app4))
+cx <- round(pro_elc_ex1$sdfc$x,2)
+cy <- round(pro_elc_ex1$sdfc$y,2)
+czeta <- round(pro_elc_ex1$sdfc$zeta,2)
+calpha <- round(pro_elc_ex1$sdfc$alpha,2)
+clambda <- round(pro_elc_ex1$sdfc$lamda,2)
+cg <- round(pro_elc_ex1$sdfc$g,2)
+ch <- round(pro_elc_ex1$sdfc$y,2)
+cGamma <- round(pro_elc_ex1$sdfc$Gamma,2)
+```
+
+```{webr-r}
+app_n_rep <- selreport(app_bal,md$app0)
+app_n_out <- seloutput(app_n_rep)
+app_n_sim <- SimVoterdatabase(app_bal)
+######## Rigged example 1: standard form
+app_ex1_cou <- Countinggraphs(app_bal)
+```
+
+
+```{webr-r}
+ctone <-'Applications'
+formved <- c('Opposition', 
+	     'Opposition', 
+	     'Normal', 
+	     'Opposition')
+casevec <- c('Miller vs. Stavros, 2020',
+'Gilbert vs. Sisiolak vs. Lombardo 2020',
+'Lake vs. Hobbs, 2022',
+'Trump vs. Biden, 2020')
+propv_vec <- c("1rd & 2th","1rd & 2th","1rd & 2th","1rd & 2th")
+prope_vec <- c("5th & 6th","5th & 6th","3rd & 4th","5th & 6th")
+cou_abc <- c("Case","Form of rigg","Properties","Violations")
+concl_appps <- data.frame(case=casevec,
+			  rig=formved,
+			  propn=prope_vec, 
+			  propv=propv_vec)
+##################################################################################################################################################################
+```
+

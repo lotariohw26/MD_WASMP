@@ -206,7 +206,7 @@ SimVoterdatabase$methods(htmltable=function(){
 SimVoterdatabase$methods(gghist=function(){
   dfgp <- r2dflook[[1]] %>% tidyr::pivot_longer(cols=c("r2a","r2b")) %>% dplyr::arrange(name,perc)
   percd <- r2dflook[[2]]
-    ggplot(dfgp,aes(x=value, fill=name)) +
+    ggplot(dfgp,ggplot2::aes(x=value, fill=name)) +
     geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
     labs(title = "histogram of values by category", x = "value", y = "count") +
     #geom_vline(xintercept = as.numeric(percd[1,1]), linetype = "dashed", color = "blue") +
@@ -572,8 +572,8 @@ Countinggraphs$methods(plot2d=function(form=1,
   longdf <- tidyr::pivot_longer(quintile,all_of(c(psel,paste0(psel,'_pred'))))
 psel
   go <- ggplot2::ggplot(data=longdf) +
-    ggplot2::geom_line(data=filter(longdf,name%in%paste0(psel,'_pred')),aes(x=pri,y=value, color=name)) +
-    ggplot2::geom_point(data=filter(longdf,name%in%psel),aes(x=pri,y=value, color=name),size=labs$size,alpha=labs$alpha) +
+    ggplot2::geom_line(data=filter(longdf,name%in%paste0(psel,'_pred')),ggplot2::aes(x=pri,y=value, color=name)) +
+    ggplot2::geom_point(data=filter(longdf,name%in%psel),ggplot2::aes(x=pri,y=value, color=name),size=labs$size,alpha=labs$alpha) +
     ggplot2::labs(title=labs$title,x=labs$x,y=labs$y,caption=labs$caption) +
     ggplot2::ylim(0,1) +
     ggplot2::theme_bw()
@@ -601,7 +601,7 @@ Countinggraphs$methods(resplot=function(form=1){
   dfg <- dplyr::select(quintile,all_of(selvar))
   cmb <- combinat::combn(3, 2)
   pl_rescro <<- lapply(seq(1,dim(cmb)[2]), function(x){
-    ggplot2::ggplot(data=dfg,aes(x=selvar[3],y=selvar[3+x])) +
+    ggplot2::ggplot(data=dfg,ggplot2::aes(x=selvar[3],y=selvar[3+x])) +
     ggplot2::geom_point() +
     ggplot2::geom_smooth(method=lm,se=F,show.legend = F) +
     ggplot2::labs(x='x',y='y',title="")
@@ -679,8 +679,9 @@ Countinggraphs$methods(rotgraph=function(){
       mode = "markers",
       type = "scatter3d",
       marker = list(color = "red")
-    ) %>%
-    layout(scene = list(aspectmode = "cube")))
+    ) 
+    #%>% layout(scene = list(aspectmode = "cube"))
+  )
 })
 Countinggraphs$methods(gridarrange=function(pl3d=list(selo=1,selm=list(1:5,6:10))){
 
@@ -786,11 +787,11 @@ Estimation$methods(diagnostics=function(){
   resplots <<- lapply(1:length(regsum), function(x) {
     ml <- regsum[[x]]
     dfgpl <- data.frame(xind=as.numeric(rownames(ml$model)),res=ml$re,endv=ml$model[[1]],endvp=ml$fitted.values) %>% dplyr::mutate(sres=sort(res))
-    lh <- ggplot(dfgpl, aes(x = res)) + geom_histogram(bins = 100, fill = 'steelblue', color = 'black') + labs(title = 'Histogram of Residuals', x = 'Residuals', y = 'Frequency')+
+    lh <- ggplot(dfgpl, ggplot2::aes(x = res)) + geom_histogram(bins = 100, fill = 'steelblue', color = 'black') + labs(title = 'Histogram of Residuals', x = 'Residuals', y = 'Frequency')+
     theme_bw()
-    la <- ggplot(dfgpl, aes(x = endv, y=endvp)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw()
-    lr <- ggplot(dfgpl, aes(x = xind, y=res )) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw()
-    lq <- ggplot(dfgpl, aes(x = xind , y = sres)) + geom_point() + theme_bw()
+    la <- ggplot(dfgpl, ggplot2::aes(x = endv, y=endvp)) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw()
+    lr <- ggplot(dfgpl, ggplot2::aes(x = xind, y=res )) + geom_point() + geom_smooth(method = "lm", se = FALSE) + theme_bw()
+    lq <- ggplot(dfgpl, ggplot2::aes(x = xind , y = sres)) + geom_point() + theme_bw()
     sht <- stats::shapiro.test(predict_df$dev)
     list(lh=lh,lr=lr,la=la,lq=lq,sht=sht)
   })
