@@ -907,7 +907,7 @@ currentDocumentLocation.appendChild(initializedElement);
 qwebrCreateMonacoEditorInstance(
   `webr::install("ManifoldDestinyWASMP", repos = "https://lotariohw26.github.io/MD_WASMC")
 webr::install("ManifoldDestinyWASMD", repos = "https://lotariohw26.github.io/MD_WASMC")
-webr::install(c("DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
+webr::install(c("cowplot","broom","htmltools","combinat","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
 library(ManifoldDestinyWASMP)
 ls(package:ManifoldDestinyWASMP)
 library(ManifoldDestinyWASMD)
@@ -935,15 +935,21 @@ currentDocumentLocation.appendChild(initializedElement);
 
 // Initialize a Monaco Editor Instance
 qwebrCreateMonacoEditorInstance(
-  `dfm <- (function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10)
+  `library(dplyr)
+library(combinat)
+library(htmltools)
+library(ggplot2)
+library(broom)
+library(combinat)
+dfm <- (function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10)
 probw <- c(m=0.51,s=0.10)
 probva <- c(vdm=0.7,mdm=0.4,vds=0.10,mds=0.10)
 probvb <- c(vdm=0.5,mdm=0.6,vds=0.10,mds=0.10)
 ztech <- c(0,1) 
 app_bal <- ballcastsim(dfm,probw,probva,probvb,ztech)
 SimVoterdatabase(app_bal)
-app_n_rep <- selreport(app_bal,md$app0)
-app_n_rep `, 
+app_n_rep <- selreport(app0,md$app0)
+app_n_out <- seloutput(app_n_rep)`, 
   2);
 </script>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
