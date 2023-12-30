@@ -1,15 +1,15 @@
 #######################################################################################################################################################
-#library(ManifoldDestinyWASMP)
+library(ManifoldDestinyWASMP)
 library(ManifoldDestinyWASMD)
 library(dplyr)
 library(ggplot2)
 library(htmltools)
 library(plotly)
+library(kableExtra)
+library(huxtable)
+library(gridExtra)
 options(scipen=999)
 set.seed(1)
-#library(kableExtra)
-#library(huxtable)
-#library(gridExtra)
 source(paste0(rprojroot::find_rstudio_root_file(),'/R/wasmconverting.R'))
 md <- ManifoldDestinyWASMD::metad
 #########################################################################################################################################################
