@@ -18,7 +18,9 @@ ls(package:ManifoldDestinyWASMP)
 library(ManifoldDestinyWASMD)
 ls(package:ManifoldDestinyWASMD)
 library(magrittr)
-md <- ManifoldDestinyWASMD::md
+md <- ManifoldDestinyWASMD::metad
+options(browser="brave")
+options(editor="nvim")
 ```
 
 
