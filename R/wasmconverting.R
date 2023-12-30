@@ -455,7 +455,7 @@ Countingprocess$methods(purging=function(mdprg=NULL,pri=0){
     erdfv <- Estimation(rdfv)
     erdfv$regression(mdprg$sgs$eq)
     rdfc <<- erdfv$predict_df %>%
-            dplyr::mutate(pre_rnk=row_number(desc(deva))) %>%
+            dplyr::mutate(pre_rnk=dplyr::row_number(desc(deva))) %>%
             dplyr::arrange(pre_rnk) %>%
             #dplyr::filter(pre_rnk>regr[[2]]) %>% dplyr::filter(!P%in%pref) %>%
             dplyr::mutate(pri=dplyr::row_number()/length(P)) %>%
@@ -475,7 +475,7 @@ Countingprocess$methods(sortpre=function(form=1,
   srdfc <- rdfc %>%
     dplyr::select(P,all_of(selvar)) %>%
     dplyr::arrange(alpha) %>%
-    dplyr::mutate(pri=row_number()/length(P)) %>%
+    dplyr::mutate(pri=dplyr::row_number()/length(P)) %>%
     dplyr::mutate(!!paste0(proppar,'_m'):=mean(!!rlang::sym(proppar))) %>%
     dplyr::mutate(!!paste0(proppar,'_mr'):=!!rlang::sym(proppar)-!!rlang::sym(paste0(proppar,'_m')))
     psel %>% purrr::map(function(x,df=srdfc,p=polyn){
