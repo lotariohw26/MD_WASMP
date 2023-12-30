@@ -886,6 +886,21 @@ globalThis.qwebrCreateMonacoEditorInstance = function (
 
 
 <p>About this site</p>
+
+<!-- Plotly.js -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<p>
+Here’s a simple Plotly plot - <a href="https://bit.ly/1Or9igj">plotly.js documentation</a>
+</p>
+<!-- Plots go in blank <div> elements. 
+    You can size them in the plot layout,
+    or give the div a size as shown here.
+-->
+<div id="tester" style="width:90%;height:250px;">
+
+</div>
+<p>Resources</p>
 <div id="qwebr-insertion-location-1"></div>
 <script type="module">
 // Retrieve the insertion point
@@ -903,7 +918,7 @@ currentDocumentLocation.appendChild(initializedElement);
 qwebrCreateMonacoEditorInstance(
   `webr::install("ManifoldDestinyWASMP", repos = "https://lotariohw26.github.io/MD_WASMC")
 webr::install("ManifoldDestinyWASMD", repos = "https://lotariohw26.github.io/MD_WASMC")
-webr::install(c("DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
+webr::install(c("kableExtra","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
 library(ManifoldDestinyWASMP)
 ls(package:ManifoldDestinyWASMP)
 library(ManifoldDestinyWASMD)
@@ -923,6 +938,25 @@ const currentDocumentLocation = document.getElementById("qwebr-insertion-locatio
 // Initalize an interactive element
 const initializedElement =   qwebrCreateInteractiveElement(
     2
+  );
+
+// Add the interactive element into the document scope
+currentDocumentLocation.appendChild(initializedElement);
+
+// Initialize a Monaco Editor Instance
+qwebrCreateMonacoEditorInstance(
+  `kableExtra::kbl(head(iris))`, 
+  2);
+</script>
+<noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
+<div id="qwebr-insertion-location-3"></div>
+<script type="module">
+// Retrieve the insertion point
+const currentDocumentLocation = document.getElementById("qwebr-insertion-location-3");
+
+// Initalize an interactive element
+const initializedElement =   qwebrCreateInteractiveElement(
+    3
   );
 
 // Add the interactive element into the document scope
@@ -968,17 +1002,17 @@ towii <- as.data.frame(ex2m) %>%
 towii[3:4,1] <- ""
 towii[4,2] <- ""
 #########################################################################################################################################################`, 
-  2);
+  3);
 </script>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-3"></div>
+<div id="qwebr-insertion-location-4"></div>
 <script type="module">
 // Retrieve the insertion point
-const currentDocumentLocation = document.getElementById("qwebr-insertion-location-3");
+const currentDocumentLocation = document.getElementById("qwebr-insertion-location-4");
 
 // Initalize an interactive element
 const initializedElement =   qwebrCreateInteractiveElement(
-    3
+    4
   );
 
 // Add the interactive element into the document scope
@@ -1011,17 +1045,17 @@ clambda <- round(pro_elc_ex1$sdfc$lamda,2)
 cg <- round(pro_elc_ex1$sdfc$g,2)
 ch <- round(pro_elc_ex1$sdfc$y,2)
 cGamma <- round(pro_elc_ex1$sdfc$Gamma,2)`, 
-  3);
+  4);
 </script>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-4"></div>
+<div id="qwebr-insertion-location-5"></div>
 <script type="module">
 // Retrieve the insertion point
-const currentDocumentLocation = document.getElementById("qwebr-insertion-location-4");
+const currentDocumentLocation = document.getElementById("qwebr-insertion-location-5");
 
 // Initalize an interactive element
 const initializedElement =   qwebrCreateInteractiveElement(
-    4
+    5
   );
 
 // Add the interactive element into the document scope
@@ -1034,17 +1068,17 @@ app_n_out <- seloutput(app_n_rep)
 app_n_sim <- SimVoterdatabase(app_bal)
 ######## Rigged example 1: standard form
 app_ex1_cou <- Countinggraphs(app_bal)`, 
-  4);
+  5);
 </script>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
-<div id="qwebr-insertion-location-5"></div>
+<div id="qwebr-insertion-location-6"></div>
 <script type="module">
 // Retrieve the insertion point
-const currentDocumentLocation = document.getElementById("qwebr-insertion-location-5");
+const currentDocumentLocation = document.getElementById("qwebr-insertion-location-6");
 
 // Initalize an interactive element
 const initializedElement =   qwebrCreateInteractiveElement(
-    5
+    6
   );
 
 // Add the interactive element into the document scope
@@ -1069,7 +1103,7 @@ concl_appps <- data.frame(case=casevec,
               propn=prope_vec, 
               propv=propv_vec)
 ##################################################################################################################################################################`, 
-  5);
+  6);
 </script>
 <noscript>Please enable JavaScript to experience the dynamic code cell content on this page.</noscript>
 

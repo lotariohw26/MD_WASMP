@@ -17,7 +17,7 @@ selreport <- function(
   co$resplot(frm)
   co$plotly3d(partition=frm)
   co$gridarrange()
-  #co$rotation(selvar=c('Z','S','V'), 
+  #co$rotation(selvar=c('Z','S','V'),
   #	    rpar=rparv,
   #	    rs=c(1,4,2),
   #	    mmeanv=c(710.76471,257.67059,151.07059),
@@ -404,7 +404,7 @@ Countingprocess$methods(r2siminput=function(form=1,latest=0)
   r2list <<- list(form=form,turn=turn,regs=regs,minmax=minmax,s=sv,ds=dsv,Perc=Perc[[form]],nprec=nprec)
 })
 Countingprocess$methods(descriptive=function(form=1){
-  flp <- c(unname(unlist(ManifoldDestiny::stickers[['parameters']])))
+  flp <- c(unname(unlist(parameters)))
   co <- c('S','T','U','V','R','Z')
   sdv <- as.data.frame(sapply(dplyr::select(rdfc,dplyr::all_of(co)),mean))
   mdv <- as.data.frame(sapply(dplyr::select(rdfc,dplyr::all_of(flp)),mean))
@@ -495,7 +495,7 @@ Countingprocess$methods(mansys=function(sygen=NULL){
   mansysl <<- sygen
   sho <- c("_s","_h","_o")[[mansysl$frm]]
   allvar <<- list(pre=mansysl$pre,end=mansysl$end)
-  exnrs <<- gsub('v',mansysl$pre[2], gsub('u',mansysl$pre[3],ManifoldDestiny::formpolv[mansysl$me[['plnr']]]))
+  exnrs <<- gsub('v',mansysl$pre[2], gsub('u',mansysl$pre[3],formpolv[mansysl$me[['plnr']]]))
   enf[[1]] <<- unname(stats::predict(polyc[[mansysl$frm]]))
   enf[[2]] <<- eqpar$meqs[[paste0(mansysl$pre[2],sho)]]
   enf[[3]] <<- py_genpolycoeff(exnrs[[1]],mansysl$pre[[1]],mansysl$pre[[3]])[[1]]
@@ -692,8 +692,8 @@ Countinggraphs$methods(gridarrange=function(pl3d=list(selo=1,selm=list(1:5,6:10)
 })
 ############################################################################################################################################################
 ############################################################################################################################################################
-#' @export strform 
-strform <- function(selv=NULL){ 
+#' @export strform
+strform <- function(selv=NULL){
   # Shave 1
   cvec <- c("x","y","zeta","g","h","Gamma","n","m","xi","Psi","alpha","u3","v3","w3")
   trc <- cvec[sapply(cvec,grepl,selv)]
@@ -726,7 +726,7 @@ Estimation <- setRefClass("Estimation", fields=list(
 						regequ='character',
 						regsum='list',
 						regform='vector',
-						resplots='list', 
+						resplots='list',
 						rotplotly='list',
 						kvec='vector',
 						param='vector',
@@ -740,8 +740,8 @@ Estimation$methods(initialize=function(rdfcinp=NULL,form=1){
   edfc <<- rdfcinp
   roto <<- ifelse(all(c("ui", "vi", "wi") %in% colnames(edfc)), 1, 0)
   fnr <<- form
-  param <<- ManifoldDestiny::stickers[['parameters']][[fnr]]
-  syequ <<- ManifoldDestiny::eqpar$meqs
+  param <<- stickers[['parameters']][[fnr]]
+  syequ <<- eqpar$meqs
   radpar <<- c(theta=0,phi=0,rho=0)
   lpku <<- list(
     S = list(
@@ -762,7 +762,7 @@ Estimation$methods(regression=function(regequ=c("alpha=k0+k1*x+k2*y")){
   regform <<- strsplit(regequ, "=")[[1]]
   # Formula
   forms <- gsub("\\*","",paste0(regform[1],"~",gsub("\\*\\*","",gsub("k\\d+","",regform[2]))))
-  formo <- as.formula(forms)  
+  formo <- as.formula(forms)
   allv <- all.vars(formo)
   # Extended data table
   un <- intersect(allv,names(edfc))
@@ -780,7 +780,7 @@ Estimation$methods(regression=function(regequ=c("alpha=k0+k1*x+k2*y")){
     dplyr::mutate(!!endh:=stats::predict(regsum[[1]])) %>%
     dplyr::mutate(dev=!!rlang::sym(endr)-!!rlang::sym(endh)) %>%
     dplyr::mutate(deva=abs(dev)) %>%
-    dplyr::mutate(pre_rnk=row_number(desc(deva))) 
+    dplyr::mutate(pre_rnk=row_number(desc(deva)))
 })
 Estimation$methods(diagnostics=function(){
   resplots <<- lapply(1:length(regsum), function(x) {
@@ -793,7 +793,7 @@ Estimation$methods(diagnostics=function(){
     lq <- ggplot(dfgpl, aes(x = xind , y = sres)) + geom_point() + theme_bw()
     sht <- stats::shapiro.test(predict_df$dev)
     list(lh=lh,lr=lr,la=la,lq=lq,sht=sht)
-  }) 
+  })
 })
 Estimation$methods(hat_predict=function(svf='y',rnr=1){
   kvec <<- broom::tidy(regsum[[1]])$estimate
@@ -805,7 +805,7 @@ Estimation$methods(hat_predict=function(svf='y',rnr=1){
     svfi <- c(svf,svf)
     lpy <<- py_genpolycoeff(expr=ex,solvd=sd,solvf=svfi[2],eur=eurv)
     setNames(as.vector(lapply(lpy[[1]], as.character)),LETTERS[1:5])
-    pnr <- sum(lpy[[1]]!="0") 
+    pnr <- sum(lpy[[1]]!="0")
   }
   if (roto==1){
     ex <- gsub("\\^","**",regform[2])
@@ -827,7 +827,7 @@ Estimation$methods(hat_predict=function(svf='y',rnr=1){
     dplyr::group_by(P) %>%
     dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
     dplyr::mutate(!!paste0(svf[1],'_hat'):=Re(polsolv[1])) %>%
-    dplyr::ungroup() 
+    dplyr::ungroup()
   regsum[[2]] <<- lm(as.formula(paste0(svf[1],"~", svf[1],'_hat')),data=pred_df_pol)
 })
 Estimation$methods(hat_intcomp=function(){
@@ -838,7 +838,7 @@ Estimation$methods(hat_intcomp=function(){
   slvh[slvh==svf] <- paste0(svf,'_hat')
   compare <<- dplyr::select(pred_df_pol,all_of(slvh)) %>% data.table::setnames(slv) %>%
   # Backsolving for ballots S,T,U,V
-  dplyr::mutate(!!names(lpkus[1]):=pareq(lpkus[1],as.list(.[]))) %>% 
+  dplyr::mutate(!!names(lpkus[1]):=pareq(lpkus[1],as.list(.[]))) %>%
   dplyr::mutate(!!names(lpkus[2]):=pareq(lpkus[2],as.list(.[]))) %>%
   dplyr::mutate(!!names(lpkus[3]):=pareq(lpkus[3],as.list(.[]))) %>%
   dplyr::mutate(!!names(lpkus[4]):=pareq(lpkus[4],as.list(.[]))) %>%
@@ -851,7 +851,7 @@ Estimation$methods(hat_intcomp=function(){
   dplyr::mutate(diff_S=S-S_hat) %>%
   dplyr::mutate(diff_T=T-T_hat) %>%
   dplyr::mutate(diff_U=U-U_hat) %>%
-  dplyr::mutate(diff_V=V-V_hat) 
+  dplyr::mutate(diff_V=V-V_hat)
   comps <- paste0('diff_',substr(lpkus[[5]], 1, 1))
   regsum[[3]] <<- lm(as.formula(lpkus[[5]]),data=compare)
   vnd <- c(
