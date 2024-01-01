@@ -1,3 +1,47 @@
+#' @export manobj
+manobj <- function(enfl=NULL,dfa=NULL,svar='y'){
+  polyc <- setNames(as.vector(lapply(enfl, as.character)),LETTERS[1:5])
+  la_e <- unlist(polyc[c(LETTERS[1:5])])
+  pnr <- sum(la_e!="0") 
+  rootdf <- dfa  %>%
+    dplyr::mutate(A=pareq(la_e[1],c(as.list(.[,])))) %>%
+    dplyr::mutate(B=pareq(la_e[2],c(as.list(.[,])))) %>%
+    dplyr::mutate(C=pareq(la_e[3],c(as.list(.[,])))) %>% 
+    dplyr::mutate(D=pareq(la_e[3],c(as.list(.[,])))) %>% 
+    dplyr::mutate(E=pareq(la_e[3],c(as.list(.[,])))) %>%
+    dplyr::group_by(P) %>%
+    dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    dplyr::mutate(!!paste0(svar):=Re(polsolv[1])) %>%
+    dplyr::ungroup() 
+  rootdf[[svar]]
+}
+#' @export gmp
+gmp <- function(terms=c("x2","xy","y2","x3","x2y","y2x","y3")){
+  # Preallocate a list to store expressions
+  nrc <- as.character(rep(1:4))
+  expre <- vector("list", length(terms))
+  # Iterate over the terms
+  for(i in seq_along(terms)){
+    term <- terms[i]
+    nl <- gsub("\\d","",term)
+    chars <- strsplit(term, "")[[1]]
+    ac <- paste0(chars,collapse="*")
+    ind <- unlist(gregexpr("\\d",ac))
+    sapply(1:nchar(nl), function(i){
+      lcl <- regexpr(substring(nl,i,i), term)[[1]]
+      cht <- substring(term,lcl,lcl+1)
+      if (substring(cht,2,2) %in% nrc){
+        aaa <- paste0(rep(substring(cht,1,1),as.numeric(substring(cht,2,2))),collapse="*")
+      } 
+      else{
+       aaa  <- substring(cht,1,1)
+      }
+      aaa
+  }) -> abc
+  expre[i] <- paste0(abc,collapse="*")
+  }
+  expre
+}
 #########################################################################################################################################
 ##' @export selreport
 selreport <- function(
@@ -496,6 +540,7 @@ Countingprocess$methods(mansys=function(sygen=NULL){
   mansysl <<- sygen
   sho <- c("_s","_h","_o")[[mansysl$frm]]
   allvar <<- list(pre=mansysl$pre,end=mansysl$end)
+  #formpolv
   exnrs <<- gsub('v',mansysl$pre[2], gsub('u',mansysl$pre[3],formpolv[mansysl$me[['plnr']]]))
   enf[[1]] <<- unname(stats::predict(polyc[[mansysl$frm]]))
   enf[[2]] <<- eqpar$meqs[[paste0(mansysl$pre[2],sho)]]
@@ -522,33 +567,33 @@ Countingprocess$methods(manimp=function(init_par=NULL,man=TRUE,wn=c(0,0)){
   end2 <- se[[endp[2]]][2]
   lstr   <- paste0("(",allvec[4],"-",altvec[4],")^2")
   lof <- function(kvec=NULL){
-    loss_df <<- rdfci %>%
-      dplyr::select(P,S,T,U,V,R,Z,all_of(allvec)) %>%
-      #dplyr::select(pri,P,S,T,U,V,R,Z,all_of(allvec)) %>%
-      data.table::setnames(allvec,altvec) %>%
-      ### Parameters
-      dplyr::mutate(!!!kvec) %>%
-      ### Presetting the first variables
-      dplyr::mutate(!!allvec[1]:=enf[[1]]) %>%
-      ### Presetting second variable
-      dplyr::mutate(!!allvec[2]:=pareq(pre2,c(as.list(.[,])))) %>%
-      ### Presetting the Manifold object
-      dplyr::mutate(!!allvec[3]:=manobj(enfl=pre3,.[,],allvec[3])) %>%
-      ### Adding some noise
-      dplyr::mutate(!!allvec[3]:=!!rlang::sym(allvec[3])*(1+rnorm(n(),wn[1],wn[2]))) %>%
-      ### Backsolving for the two remaining parameter
-      dplyr::mutate(!!allvec[4]:=pareq(end1,c(as.list(.[,])))) %>%
-      dplyr::mutate(!!allvec[5]:=pareq(end2,c(as.list(.[,])))) %>%
-      dplyr::mutate(LSV:=pareq(lstr,c(as.list(.[,])))) %>%
-      #### Backsolving for ballots
-      data.table::setnames(c("S","T","U","V"),c("S_o","T_o","U_o","V_o")) %>%
-      dplyr::mutate(S=floor(pareq(se[[paste0('S',sho)]][2],as.list(.[]))))  %>%
-      dplyr::mutate(T=floor(pareq(se[[paste0('T',sho)]][2],as.list(.[]))))  %>%
-      dplyr::mutate(U=floor(pareq(se[[paste0('U',sho)]][2],as.list(.[]))))  %>%
-      dplyr::mutate(V=floor(pareq(se[[paste0('V',sho)]][2],as.list(.[]))))  %>%
-      dplyr::rename(Z_o=Z) %>%
-      dplyr::mutate(Z=S+T+U+V)
-      ## Loss value
+  loss_df <<- rdfci %>%
+    dplyr::select(P,S,T,U,V,R,Z,all_of(allvec)) %>%
+    #dplyr::select(pri,P,S,T,U,V,R,Z,all_of(allvec)) %>%
+    data.table::setnames(allvec,altvec) %>%
+    ### Parameters
+    dplyr::mutate(!!!kvec) %>%
+    ### Presetting the first variables
+    dplyr::mutate(!!allvec[1]:=enf[[1]]) %>%
+    ### Presetting second variable
+    dplyr::mutate(!!allvec[2]:=pareq(pre2,c(as.list(.[,])))) %>%
+    ### Presetting the Manifold object
+    dplyr::mutate(!!allvec[3]:=manobj(enfl=pre3,.[,],allvec[3])) %>%
+    ### Adding some noise
+    dplyr::mutate(!!allvec[3]:=!!rlang::sym(allvec[3])*(1+rnorm(n(),wn[1],wn[2]))) %>%
+    ### Backsolving for the two remaining parameter
+    dplyr::mutate(!!allvec[4]:=pareq(end1,c(as.list(.[,])))) %>%
+    dplyr::mutate(!!allvec[5]:=pareq(end2,c(as.list(.[,])))) %>%
+    dplyr::mutate(LSV:=pareq(lstr,c(as.list(.[,])))) %>%
+    #### Backsolving for ballots
+    data.table::setnames(c("S","T","U","V"),c("S_o","T_o","U_o","V_o")) %>%
+    dplyr::mutate(S=floor(pareq(se[[paste0('S',sho)]][2],as.list(.[]))))  %>%
+    dplyr::mutate(T=floor(pareq(se[[paste0('T',sho)]][2],as.list(.[]))))  %>%
+    dplyr::mutate(U=floor(pareq(se[[paste0('U',sho)]][2],as.list(.[]))))  %>%
+    dplyr::mutate(V=floor(pareq(se[[paste0('V',sho)]][2],as.list(.[]))))  %>%
+    dplyr::rename(Z_o=Z) %>%
+    dplyr::mutate(Z=S+T+U+V)
+    ## Loss value
   }
   lv <- function(param=NULL){
     lofdf <- lof(kvec=param)
@@ -558,7 +603,11 @@ Countingprocess$methods(manimp=function(init_par=NULL,man=TRUE,wn=c(0,0)){
   if (man) {
     man_lores <- lv(param=init_par)
   } else {
-    opt_lores <- optim(par = init_par, fn = lv, method='L-BFGS-B',lower=c(k0=0,k1=0,k2=0),upper=c(k0=0,k1=0,k2=0))
+    opt_lores <- optim(par = init_par, 
+		       fn = lv, 
+		       method='L-BFGS-B',
+		       lower=c(k0=0,k1=0,k2=0),
+		       upper=c(k0=0,k1=0,k2=0))
   }
   rdfc <<- dplyr::select(loss_df,P,R,S,T,U,V) %>% ballcount(se=se)
 })
@@ -871,4 +920,5 @@ Estimation$methods(hat_intcomp=function(){
   comdesc <<- data.frame(stats=names(vnd),values=vnd)
 })
 ############################################################################################################################################################
+
 
