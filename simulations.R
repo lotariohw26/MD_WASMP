@@ -4,7 +4,7 @@
 #webr::install(c("cowplot","broom","htmltools","combinat","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
 source(paste0(rprojroot::find_rstudio_root_file(),'/R/wasmconverting.R'))
 #library(ManifoldDestinyWASMP)
-#library(ManifoldDestinyWASMD)
+library(ManifoldDestinyWASMD)
 library(dplyr)
 library(ggplot2)
 library(htmltools)

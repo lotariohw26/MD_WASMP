@@ -1,3 +1,20 @@
+#' @export py_polysolver
+py_polysolverW <- function(degree=1,kvec=NULL){
+  vec <- kvec[!is.na(kvec)] 
+  if (degree==1) {
+    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
+  }
+  if (degree==2) {
+    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
+  }
+  if (degree==3) {
+    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
+  }
+  if (degree==4) {
+    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
+  }
+  retv
+}
 #' @export manobj
 manobj <- function(enfl=NULL,dfa=NULL,svar='y'){
   polyc <- setNames(as.vector(lapply(enfl, as.character)),LETTERS[1:5])
@@ -10,7 +27,8 @@ manobj <- function(enfl=NULL,dfa=NULL,svar='y'){
     dplyr::mutate(D=pareq(la_e[3],c(as.list(.[,])))) %>% 
     dplyr::mutate(E=pareq(la_e[3],c(as.list(.[,])))) %>%
     dplyr::group_by(P) %>%
-    dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    #dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
     dplyr::mutate(!!paste0(svar):=Re(polsolv[1])) %>%
     dplyr::ungroup() 
   rootdf[[svar]]
