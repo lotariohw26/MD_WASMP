@@ -3,7 +3,7 @@
 #webr::install("ManifoldDestinyWASMD", repos = "https://lotariohw26.github.io/MD_WASMC")
 #webr::install(c("cowplot","broom","htmltools","combinat","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
 source(paste0(rprojroot::find_rstudio_root_file(),'/R/wasmconverting.R'))
-#library(ManifoldDestinyWASMP)
+library(ManifoldDestinyWASMP)
 library(ManifoldDestinyWASMD)
 library(dplyr)
 library(ggplot2)
@@ -58,5 +58,4 @@ app_ex3_cou$manimp(init_par=c(k0=0.0,k1=0.5,k2=0.5),wn=c(0,0))
 app_ex3_out <- seloutput(selreport(app_ex3_cou$rdfc,md$app0))
 app_ex3_sim <- SimVoterdatabase(app_ex3_cou$rdfc)
 #####################################################################################################################################################################
-
 

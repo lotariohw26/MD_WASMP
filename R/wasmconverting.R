@@ -1,17 +1,15 @@
 #' @export py_polysolver
 py_polysolverW <- function(degree=1,kvec=NULL){
   vec <- kvec[!is.na(kvec)] 
+  # Linear
   if (degree==1) {
     retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
   }
   if (degree==2) {
-    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
+    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=vec[3],D=0))[1]
   }
   if (degree==3) {
-    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
-  }
-  if (degree==4) {
-    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=0,D=0))[1]
+    retv <- Re(AlgebraicHaploPackage::cubic(A=vec[1],B=vec[2],C=vec[3],D=vec[4]))[1]
   }
   retv
 }
