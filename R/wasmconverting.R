@@ -541,10 +541,15 @@ Countingprocess$methods(mansys=function(sygen=NULL){
   sho <- c("_s","_h","_o")[[mansysl$frm]]
   allvar <<- list(pre=mansysl$pre,end=mansysl$end)
   #formpolv
-  exnrs <<- gsub('v',mansysl$pre[2], gsub('u',mansysl$pre[3],formpolv[mansysl$me[['plnr']]]))
+  exnrs <<- gsub('v',mansysl$pre[2], gsub('u',mansysl$pre[3],peqs[mansysl$me[['plnr']]]))
   enf[[1]] <<- unname(stats::predict(polyc[[mansysl$frm]]))
   enf[[2]] <<- eqpar$meqs[[paste0(mansysl$pre[2],sho)]]
-  enf[[3]] <<- py_genpolycoeff(exnrs[[1]],mansysl$pre[[1]],mansysl$pre[[3]])[[1]]
+  # wasmcompiled
+  enf[[3]] <<- list(list('k1','-alpha + k0 + k2*x',0,0,0),
+       list('k1','-alpha + k0 + k2*g',0,0,0),
+       list('k1','-alpha + k0 + k2*g',0,0,0))[[mansysl$frm]]
+  # wasmnonpiled
+  #enf[[3]] <<- py_genpolycoeff(exnrs[[1]],mansysl$pre[[1]],mansysl$pre[[3]])[[1]]
 })
 Countingprocess$methods(setres=function(czset=NULL,prnt=0){
   frp <- mansysl$frm
@@ -920,5 +925,4 @@ Estimation$methods(hat_intcomp=function(){
   comdesc <<- data.frame(stats=names(vnd),values=vnd)
 })
 ############################################################################################################################################################
-
 
