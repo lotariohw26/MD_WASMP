@@ -1,14 +1,15 @@
 #######################################################################################################################################################
+#source(paste0(rprojroot::find_rstudio_root_file(),'/R/wasmconverting.R'))
 #webr::install("ManifoldDestinyWASMP", repos = "https://lotariohw26.github.io/MD_WASMC")
 #webr::install("ManifoldDestinyWASMD", repos = "https://lotariohw26.github.io/MD_WASMC")
-#webr::install(c("cowplot","broom","htmltools","combinat","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
-source(paste0(rprojroot::find_rstudio_root_file(),'/R/wasmconverting.R'))
+#webr::install(c("AlgebraicHaploPackage","cowplot","broom","htmltools","combinat","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
 library(ManifoldDestinyWASMP)
 library(ManifoldDestinyWASMD)
 library(dplyr)
 library(ggplot2)
 library(htmltools)
 library(plotly)
+library(AlgebraicHaploPackage)
 options(scipen=999)
 set.seed(1)
 md <- ManifoldDestinyWASMD::metad
