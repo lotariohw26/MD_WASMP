@@ -1,4 +1,21 @@
-#' @export py_polysolver
+#' @export wasmconload
+wasmconload <- function(){
+  webr::install("ManifoldDestinyWASMP", repos = "https://lotariohw26.github.io/MD_WASMC")
+  webr::install("ManifoldDestinyWASMD", repos = "https://lotariohw26.github.io/MD_WASMC")
+  library(ManifoldDestinyWASMP)
+  library(ManifoldDestinyWASMD)
+  # Import
+  library(dplyr)
+  library(ggplot2)
+  library(htmltools)
+  library(plotly)
+  library(kableExtra)
+  library(huxtable)
+  library(gridExtra)
+  # New
+}
+#########################################################################################################################################################
+#' @export py_polysolverW
 py_polysolverW <- function(degree=1,kvec=NULL){
   vec <- kvec[!is.na(kvec)] 
   # Linear
