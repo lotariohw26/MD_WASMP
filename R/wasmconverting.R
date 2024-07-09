@@ -1006,4 +1006,3 @@ Estimation$methods(hat_intcomp=function(){
     prc0123=100*sum(abs(compare[[comps]] - 0) <= 3)/length(compare[[comps]]))
   comdesc <<- data.frame(stats=names(vnd),values=vnd)
 })
-
