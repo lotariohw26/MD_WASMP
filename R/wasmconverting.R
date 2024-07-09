@@ -56,7 +56,7 @@ manobj <- function(enfl=NULL,dfa=NULL,svar='y'){
     dplyr::mutate(D=pareq(la_e[3],c(as.list(.[,])))) %>%
     dplyr::mutate(E=pareq(la_e[3],c(as.list(.[,])))) %>%
     dplyr::group_by(P) %>%
-    dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
     dplyr::mutate(!!paste0(svar):=Re(polsolv[1])) %>%
     dplyr::ungroup()
   rootdf[[svar]]
@@ -962,8 +962,8 @@ Estimation$methods(hat_predict=function(svf='y',rnr=1){
     dplyr::mutate(D=pareq(as.character(lpy[[1]][[4]]),.[,])) %>%
     dplyr::mutate(E=pareq(as.character(lpy[[1]][[5]]),.[,])) %>%
     dplyr::group_by(P) %>%
-    dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
-    #dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    #dplyr::mutate(polsolv=py_polysolverWW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
     dplyr::mutate(!!paste0(svf[1],'_hat'):=Re(polsolv[1])) %>%
     dplyr::ungroup()
   regsum[[2]] <<- lm(as.formula(paste0(svf[1],"~", svf[1],'_hat')),data=pred_df_pol)
