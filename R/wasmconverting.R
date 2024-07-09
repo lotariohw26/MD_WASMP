@@ -605,7 +605,7 @@ Countingprocess$methods(mansys=function(sygen=NULL){
 Countingprocess$methods(setres=function(czset=NULL,prnt=0){
   frp <- mansysl$frm
   if (!is.null(czset)) {
-    polyc[[frp]][[1]][[1]] <<- czset   
+    polyc[[frp]][[1]][[1]] <<- czset
     enf[[1]] <<- unname(stats::predict(polyc[[mansysl$frm]]))
   }
   if (prnt==1) {
@@ -635,7 +635,7 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
       dplyr::mutate(!!!mv,!!!nv) %>%
       dplyr::mutate(a1=pareq(abcv[1],c(as.list(.[,])))) %>%
       dplyr::mutate(a2=pareq(abcv[2],c(as.list(.[,])))) %>%
-      dplyr::mutate(a3=pareq(abcv[3],c(as.list(.[,])))) %>%  
+      dplyr::mutate(a3=pareq(abcv[3],c(as.list(.[,])))) %>%
       dplyr::mutate(b1=pareq(abcv[4],c(as.list(.[,])))) %>%
       dplyr::mutate(b2=pareq(abcv[5],c(as.list(.[,])))) %>%
       dplyr::mutate(b3=pareq(abcv[6],c(as.list(.[,])))) %>%
@@ -667,7 +667,7 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
       dplyr::mutate(Z_m=S_m+T_m+U_m+V_m) %>%
       dplyr::mutate(R_m=R) %>%
       ## testing
-      dplyr::mutate(alpha_test=(S_m+U_m)/(Z_m)) 
+      dplyr::mutate(alpha_test=(S_m+U_m)/(Z_m))
       ## Loss value
   }
   lv <- function(params=NULL){
@@ -762,7 +762,7 @@ Countinggraphs$methods(plotly3d=function(
           yaxis = list(title = names(gdf)[2]),
           zaxis = list(title = names(gdf)[3])
         )
-      ) 
+      )
   })
   # Assign names to the list
   names(pl_3d_mani) <<- sapply(seq(1, dim(combi)[2]), function(x, comb = combi, df = rdfcpar) {
