@@ -9,6 +9,13 @@ wasmconload <- function(){
       webr::install(c("AlgebraicHaploPackage","cowplot","broom","htmltools","combinat","DT","dplyr","purrr","magrittr","data.table","tidyr","plotly"))
       library(ManifoldDestinyWASMP)
       library(ManifoldDestinyWASMD)
+      #
+      library(AlgebraicHaploPackage)
+      library(broom)
+      library(combinat)
+      library(ggplot2)
+      library(htmltools)
+      library(plotly)
   },
   {
       # Commands to be executed if the condition is FALSE
@@ -27,6 +34,8 @@ wasmconload <- function(){
   library(tidyr)
   library(combinat)
   library(AlgebraicHaploPackage)
+  library(huxtable)
+  library(kableExtra)
 }
 #########################################################################################################################################################
 # ' @export py_polysolverW
@@ -46,6 +55,7 @@ py_polysolverW <- function(degree=1,kvec=NULL){
 }
 #' @export manobj
 manobj <- function(enfl=NULL,dfa=NULL,svar='y'){
+#	browser()
   polyc <- setNames(as.vector(lapply(enfl[[1]], as.character)),LETTERS[1:5])
   la_e <- unlist(polyc[c(LETTERS[1:5])])
   pnr <- sum(la_e!="0")
@@ -56,7 +66,8 @@ manobj <- function(enfl=NULL,dfa=NULL,svar='y'){
     dplyr::mutate(D=pareq(la_e[3],c(as.list(.[,])))) %>%
     dplyr::mutate(E=pareq(la_e[3],c(as.list(.[,])))) %>%
     dplyr::group_by(P) %>%
-    dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    #dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
     dplyr::mutate(!!paste0(svar):=Re(polsolv[1])) %>%
     dplyr::ungroup()
   rootdf[[svar]]
@@ -87,103 +98,6 @@ gmp <- function(terms=c("x2","xy","y2","x3","x2y","y2x","y3")){
   expre[i] <- paste0(abc,collapse="*")
   }
   expre
-}
-#########################################################################################################################################
-##' @export selreport
-selreport <- function(
-		      baldata=NULL
-		      ){
-
-  da <- baldata[[1]]
-  md <- baldata[[2]]
-  frm <- 1 # md$fr
-  #rparv <- md$mtd$sgs$ro ; names(rparv) <- c("theta","phi","rho")
-  co <- Countinggraphs(da)
-  #View(co$rdfci)
-  #if (md$mtd$prg$cnd==1) co$purging(md$mtd,1)
-  co$sortpre(frm)
-  co$descriptive(frm)
-  co$r2siminput(frm)
-  co$plot2d(frm)
-  co$plotxy(frm)
-  co$resplot(frm)
-  co$plotly3d(partition=frm)
-  co$gridarrange()
-  #co$rotation(rpar=rparv)
-  #co$rotgraph()
-  ges <- Estimation(co$rdfc,frm)
-  ges$regression(md$eq)
-  ges$diagnostics()
-  #ges$hat_predict(md$mtd$sgs$va,as.numeric(md$mtd$sgs$fr))
-  #ges$hat_intcomp()
-  ### Identify
-  ies <- Estimation(co$rdfc,frm)
-  ies$regression(md$eq)
-  ies$diagnostics()
-  ## Identify
-  ### Bowplot
-  cob <- Countinggraphs(da,selvar=names(da))
-  cob$sortpre(4,3)
-  cob$plot2d(4,labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,alpha=0.4,size=0.5))
-  return(list(co=co,ges=ges,ies=ies,md=baldata[[2]],cb=cob,md=md))
-}
-##' @export seloutput
-seloutput <- function(selreport=NULL){
-  tab0 <- selreport[[1]]$rdfc
-  tab1 <- selreport[[1]]$desms
-  tab2 <- selreport[[1]]$pl_corrxy[[1]]
-  tab3 <- selreport[[1]]$pl_2dsort[[1]]
-  tab4 <- selreport[[1]]$pl_3d_mani[[1]]
-  tab5 <- selreport[[1]]$r2list
-  tab6 <- list(summary(selreport[[2]]$regsum[[1]]))
-  l1 <- selreport[[2]]$resplots[[1]][[1]]
-  l2 <- selreport[[2]]$resplots[[1]][[2]]
-  l3 <- selreport[[2]]$resplots[[1]][[3]]
-  l4 <- selreport[[2]]$resplots[[1]][[4]]
-  tab7 <- cowplot::plot_grid(plotlist=list(l1,l2,l3,l4))
-  tab8 <- selreport[[2]]$comdesc
-  tab9 <- selreport[[4]]
-  tab10 <- selreport[[5]]$pl_2dsort
-  tab11 <- selreport[[6]]
-  list(rdfc=tab0,decs=tab1,corxy=tab2,qunt=tab3,ro3d=tab4,r2li=tab5,regr=tab6,resp=tab7,cmp=tab8,md=tab9,bb=tab10,md=tab11)
-}
-#########################################################################################################################################
-#' @export ballcastsim
-ballcastsim <- function(
-  dfm=(function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10),
-  probw=c(0.5,0.02),
-  probva=c(0.7,0.2,0.03,0.00),
-  probvb=c(0.7,0.2,0.03,0.00),
-  ztech=c(0,0)){
-  probvrnd <<- dfm |>
-    dplyr::mutate(ZV=rnorm(dplyr::n(),probw[1],probw[2])) |>
-    dplyr::mutate(N=runif(dplyr::n(),ztech[1],ztech[2])) |>
-    dplyr::mutate(p3=(1-ztech)*(1-pmax(0, pmin(1,rnorm(dplyr::n(),probva[1],probva[3]))))) |>
-    dplyr::mutate(p6=(1-ztech)*(1-pmax(0, pmin(1,rnorm(dplyr::n(),probvb[1],probvb[3]))))) |>
-    dplyr::mutate(p2=(1-p3)*pmax(0, pmin(1,rnorm(dplyr::n(),probva[2],probva[4])))) |>
-    dplyr::mutate(p5=(1-p6)*pmax(0, pmin(1,rnorm(dplyr::n(),probvb[2],probvb[4])))) |>
-    dplyr::mutate(p1=1-p2-p3) |>
-    dplyr::mutate(p4=1-p5-p6) |>
-    dplyr::select(P,RV,ZV,N,p1,p2,p3,p4,p5,p6) |>
-    dplyr::group_split(P)
-  voticp <- lapply(seq(1,length(probvrnd)),function(x){
-    inpv <- probvrnd[[x]]
-    dfa <- data.frame(P=rep(inpv$P,inpv$RV),R=inpv$RV,C=stats::rbinom(inpv$RV,1,inpv$ZV)) |>
-    dplyr::mutate(Id=dplyr::row_number()) |>
-    dplyr::group_by(Id) |>
-    dplyr::mutate(V=ifelse(C==1,sample(1:3,1,prob=c(inpv$p1,inpv$p2,inpv$p3)),sample(4:6,1,prob=c(inpv$p4,inpv$p5,inpv$p6)))) |>
-    dplyr::mutate(S=ifelse(V==1,1,0)) |>
-    dplyr::mutate(T=ifelse(V==4,1,0)) |>
-    dplyr::mutate(U=ifelse(V==2,1,0)) |>
-    dplyr::mutate(V=ifelse(V==5,1,0))
-})
-  votpc <- do.call("rbind", voticp) |>
-    dplyr::arrange(P) |>  dplyr::group_by(P)  |>
-    dplyr::select(c('P','R','S','T','U','V')) |>
-    dplyr::mutate(S=sum(S),T=sum(T),U=sum(U),V=sum(V)) |>
-    dplyr::distinct() |>
-    dplyr::mutate(Z=sum(S+T+U+V)) |>
-    dplyr::ungroup()
 }
 ## Simulate prob
 #' @export r2simn
@@ -241,69 +155,101 @@ r2simn <- function(nprec=300,
     list(r2reg=unique(dfc$R2_1),receil=unique(dfc$R2_2),dfcopy=dfc)
 }
 
-#' @export SimVoterdatabase
-SimVoterdatabase <- setRefClass("SimVoterdatabase",fields=
-				   list(
-					ballcous='data.frame',
-					r2dflook='list',
-					htmlr2='data.frame',
-					ggplr2='list'
-				   )
-)
-
-SimVoterdatabase$methods(initialize=function(initdf=NULL){
-  ballcous <<- Countingprocess(initdf)$sdfc
+#' @export ballcastsim
+ballcastsim <- function(dfm=(function(x){data.frame(P=seq(1,x),RV=as.integer(rnorm(x,1000,30)))})(10),
+  probw=c(0.5,0.02),
+  probva=c(0.7,0.2,0.03,0.00),
+  probvb=c(0.7,0.2,0.03,0.00),
+  ztech=c(0,0))
+  {
+  probvrnd <- dfm |>
+    dplyr::mutate(ZV=rnorm(dplyr::n(),probw[1],probw[2])) |>
+    dplyr::mutate(N=runif(dplyr::n(),ztech[1],ztech[2])) |>
+    dplyr::mutate(p3=(1-ztech)*(1-pmax(0, pmin(1,rnorm(dplyr::n(),probva[1],probva[3]))))) |>
+    dplyr::mutate(p6=(1-ztech)*(1-pmax(0, pmin(1,rnorm(dplyr::n(),probvb[1],probvb[3]))))) |>
+    dplyr::mutate(p2=(1-p3)*pmax(0, pmin(1,rnorm(dplyr::n(),probva[2],probva[4])))) |>
+    dplyr::mutate(p5=(1-p6)*pmax(0, pmin(1,rnorm(dplyr::n(),probvb[2],probvb[4])))) |>
+    dplyr::mutate(p1=1-p2-p3) |>
+    dplyr::mutate(p4=1-p5-p6) |>
+    dplyr::select(P,RV,ZV,N,p1,p2,p3,p4,p5,p6) |>
+    dplyr::group_split(P)
+  voticp <- lapply(seq(1,length(probvrnd)),function(x){
+    inpv <- probvrnd[[x]]
+    dfa <- data.frame(P=rep(inpv$P,inpv$RV),R=inpv$RV,C=stats::rbinom(inpv$RV,1,inpv$ZV)) |>
+    dplyr::mutate(Id=dplyr::row_number()) |>
+    dplyr::group_by(Id) |>
+    dplyr::mutate(V=ifelse(C==1,sample(1:3,1,prob=c(inpv$p1,inpv$p2,inpv$p3)),sample(4:6,1,prob=c(inpv$p4,inpv$p5,inpv$p6)))) |>
+    dplyr::mutate(S=ifelse(V==1,1,0)) |>
+    dplyr::mutate(T=ifelse(V==4,1,0)) |>
+    dplyr::mutate(U=ifelse(V==2,1,0)) |>
+    dplyr::mutate(V=ifelse(V==5,1,0))
 })
-SimVoterdatabase$methods(r2sim=function(rept=10,form=1)
-{
-    #$standard
-    #[1] "x"     "y"     "zeta"  "alpha" "lamda"
-    #$hybrid
-    #[1] "g"     "h"     "Gamma" "alpha" "Omega"
-    #$opposition
-    #[1] "m"     "n"     "xi"    "lamda" "Omega"
-    # Fixed
-    srs <- list(st=c('Omega','x','y'),hy=c('lamda','h','g'),op=c('Omega','m','n'))[[form]]
-    v_nprec <- length(ballcous$P)
-    v_regs <- c(mean(ballcous$R)/1000,sd(ballcous$R)/1000) #c(3.15,0.25)
-    v_minmax <- range(ballcous$R)
-    v_turn <- c(mean(ballcous$R/ballcous$Z),sd(ballcous$R/ballcous$Z)) #c(0.5,0.01)
-    # Form dependent
-    v_Invper <- c(mean(ballcous[[srs[1]]]),sd(ballcous[[srs[1]]]))
-    v_u <- c(mean(ballcous[[srs[2]]]),sd(ballcous[[srs[2]]]))
-    v_dv <- c(mean(ballcous[[srs[[3]]]]-ballcous[[srs[[2]]]]),sd(ballcous[[srs[[3]]]]-ballcous[[srs[[2]]]]))
-    # R2 calculations
-    tf <- replicate(rept, r2simn(nprec=v_nprec,regs=v_regs,minmax=v_minmax,turn=v_turn,Invper=v_Invper,u=v_u,dv=v_dv))
-    dfgp <- data.frame(r2a=unlist(tf[seq(1,length(tf),3)]),r2b=unlist(tf[seq(2,length(tf),3)])) %>% mutate(perc = ntile(r2a, 100))
-    # Input DF2
-    percentiles <- c(90, 95, 99)
-    nstd <- c(1,2,5)
-    std <- mean(dfgp$r2a)+nstd*sd(dfgp$r2a)
-    perc1 <- quantile(dfgp$r2a,probs = percentiles / 100)
-    perc2 <- quantile(dfgp$r2b,probs = percentiles / 100)
-    percdf <- data.frame(perc1,perc2,nstd,std) %>% data.table::setnames(c("Perc r2a","Perc r2b","Nstd","Vstd"))
-    r2dflook <<- list(dfgp,percdf)
-})
-SimVoterdatabase$methods(htmltable=function(){
-  htmlr2 <<- r2dflook[[1]] #kableExtra::kbl() #%>% kableExtra::kable_paper(full_width = F)
-})
-SimVoterdatabase$methods(gghist=function(){
-  dfgp <- r2dflook[[1]] %>% tidyr::pivot_longer(cols=c("r2a","r2b")) %>% dplyr::arrange(name,perc)
-  percd <- r2dflook[[2]]
-    ggplot(dfgp,ggplot2::aes(x=value, fill=name)) +
-    geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
-    labs(title = "histogram of values by category", x = "value", y = "count") +
-    #geom_vline(xintercept = as.numeric(percd[1,1]), linetype = "dashed", color = "blue") +
-    #geom_vline(xintercept = as.numeric(percd[2,1]), linetype = "dashed", color = "blue") +
-    #geom_vline(xintercept = as.numeric(percd[3,1]), linetype = "dashed", color = "blue") +
-    #geom_vline(xintercept = as.numeric(percd[3,4]), linetype = "solid", color = "red") +
-    #geom_label(y=0,x=as.numeric(percd[1,1]),label="*",geom="label") +
-    #geom_label(y=0,x=as.numeric(percd[2,1]),label="**",geom="label") +
-    #geom_label(y=0,x=as.numeric(percd[3,1]),label="***",geom="label") +
-    theme_minimal() +
-    scale_fill_manual(values = c("#0072b2", "#e69f00"))  # set fill colors
-})
+  votpc <- do.call("rbind", voticp) |>
+    dplyr::arrange(P) |>  dplyr::group_by(P)  |>
+    dplyr::select(c('P','R','S','T','U','V')) |>
+    dplyr::mutate(S=sum(S),T=sum(T),U=sum(U),V=sum(V)) |>
+    dplyr::distinct() |>
+    dplyr::mutate(Z=sum(S+T+U+V)) |>
+    dplyr::ungroup()
+}
 #########################################################################################################################################
+##' @export selreport
+selreport <- function(
+		      baldata=NULL
+		      ){
+  da <- baldata[[1]]
+  md <- baldata[[2]]
+  frm <- md$fr 
+  #rparv <- md$mtd$sgs$ro ; names(rparv) <- c("theta","phi","rho")
+  co <- Countinggraphs(da)
+  #0if (md$prg$cnd==1) co$purging(z=md$prg$z,stuv=md$prg$stuv,blup=md$prg$blup,eqp=md$prg$eqp)
+  co$sortpre(frm)
+  co$descriptive(frm)
+  co$r2siminput(frm)
+  co$plot2d(frm)
+  co$plotxy(frm)
+  co$resplot(frm)
+  co$plotly3d(partition=frm)
+  co$gridarrange()
+  #co$rotation(rpar=rparv)
+  #co$rotgraph()
+  ges <- Estimation(co$rdfc,frm)
+  ges$regression(md$eq)
+  ges$diagnostics()
+  ges$hat_predict(md$va,md$fr)
+  ges$hat_intcomp()
+  ### Identify
+  ies <- Estimation(co$rdfc,frm)
+  ies$regression(md$eq)
+  ies$diagnostics()
+  ## Identify
+  ### Bowplot
+  cob <- Countinggraphs(da,selvar=names(da))
+  cob$sortpre(4,3)
+  cob$plot2d(4,labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,alpha=0.4,size=0.5))
+  return(list(co=co,ges=ges,ies=ies,md=baldata[[2]],cb=cob,md=md))
+}
+##' @export seloutput
+seloutput <- function(selreport=NULL){
+  tab1 <- selreport[[1]]$rdfc
+  tab2 <- selreport[[1]]$desms
+  tab3 <- selreport[[1]]$pl_corrxy[[1]]
+  tab4 <- selreport[[1]]$pl_2dsort[[1]]
+  tab5 <- selreport[[1]]$pl_3d_mani[[1]]
+  tab6 <- selreport[[1]]$r2list
+  tab7 <- list(summary(selreport[[2]]$regsum[[1]]))
+  l1 <- selreport[[2]]$resplots[[1]][[1]]
+  l2 <- selreport[[2]]$resplots[[1]][[2]]
+  l3 <- selreport[[2]]$resplots[[1]][[3]]
+  l4 <- selreport[[2]]$resplots[[1]][[4]]
+  tab8 <- cowplot::plot_grid(plotlist=list(l1,l2,l3,l4))
+  tab9 <- selreport[[2]]$comdesc
+  tab10 <- selreport[[4]]
+  tab11 <- selreport[[5]]$pl_2dsort
+  tab12 <- selreport[[6]]
+  list(rdfc=tab1,decs=tab2,corxy=tab3,qunt=tab4,ro3d=tab5,r2li=tab6,regr=tab7,resp=tab8,cmp=tab9,md=tab10,bb=tab11,md=tab12)
+}
+
 ##' @export Rall
 Rall <- function(sel=c(1,2,3)){
   Rxy <- function(rad) {
@@ -410,6 +356,70 @@ ballcount <- function(ballotsdf=NULL,se=se){
 pareq <- function(ste='(x + y*zeta)/(zeta + 1)',lv=list(x=0.75,y=0.25,zeta=1)){
 	eval(parse(text=ste),lv)
 }
+#########################################################################################################################################
+#' @export SimVoterdatabase
+SimVoterdatabase <- setRefClass("SimVoterdatabase",fields=
+				   list(
+					ballcous='data.frame',
+					r2dflook='list',
+					htmlr2='data.frame',
+					ggplr2='list'
+				   )
+)
+
+SimVoterdatabase$methods(initialize=function(initdf=NULL){
+  ballcous <<- Countingprocess(initdf)$sdfc
+})
+SimVoterdatabase$methods(r2sim=function(rept=10,form=1)
+{
+    #$standard
+    #[1] "x"     "y"     "zeta"  "alpha" "lamda"
+    #$hybrid
+    #[1] "g"     "h"     "Gamma" "alpha" "Omega"
+    #$opposition
+    #[1] "m"     "n"     "xi"    "lamda" "Omega"
+    # Fixed
+    srs <- list(st=c('Omega','x','y'),hy=c('lamda','h','g'),op=c('Omega','m','n'))[[form]]
+    v_nprec <- length(ballcous$P)
+    v_regs <- c(mean(ballcous$R)/1000,sd(ballcous$R)/1000) #c(3.15,0.25)
+    v_minmax <- range(ballcous$R)
+    v_turn <- c(mean(ballcous$R/ballcous$Z),sd(ballcous$R/ballcous$Z)) #c(0.5,0.01)
+    # Form dependent
+    v_Invper <- c(mean(ballcous[[srs[1]]]),sd(ballcous[[srs[1]]]))
+    v_u <- c(mean(ballcous[[srs[2]]]),sd(ballcous[[srs[2]]]))
+    v_dv <- c(mean(ballcous[[srs[[3]]]]-ballcous[[srs[[2]]]]),sd(ballcous[[srs[[3]]]]-ballcous[[srs[[2]]]]))
+    # R2 calculations
+    tf <- replicate(rept, r2simn(nprec=v_nprec,regs=v_regs,minmax=v_minmax,turn=v_turn,Invper=v_Invper,u=v_u,dv=v_dv))
+    dfgp <- data.frame(r2a=unlist(tf[seq(1,length(tf),3)]),r2b=unlist(tf[seq(2,length(tf),3)])) %>% mutate(perc = ntile(r2a, 100))
+    # Input DF2
+    percentiles <- c(90, 95, 99)
+    nstd <- c(1,2,5)
+    std <- mean(dfgp$r2a)+nstd*sd(dfgp$r2a)
+    perc1 <- quantile(dfgp$r2a,probs = percentiles / 100)
+    perc2 <- quantile(dfgp$r2b,probs = percentiles / 100)
+    percdf <- data.frame(perc1,perc2,nstd,std) %>% data.table::setnames(c("Perc r2a","Perc r2b","Nstd","Vstd"))
+    r2dflook <<- list(dfgp,percdf)
+})
+SimVoterdatabase$methods(htmltable=function(){
+  htmlr2 <<- r2dflook[[1]] #kableExtra::kbl() #%>% kableExtra::kable_paper(full_width = F)
+})
+SimVoterdatabase$methods(gghist=function(){
+  dfgp <- r2dflook[[1]] %>% tidyr::pivot_longer(cols=c("r2a","r2b")) %>% dplyr::arrange(name,perc)
+  percd <- r2dflook[[2]]
+    ggplot(dfgp,ggplot2::aes(x=value, fill=name)) +
+    geom_histogram(position = "identity", alpha = 0.5, bins = 30) +
+    labs(title = "histogram of values by category", x = "value", y = "count") +
+    #geom_vline(xintercept = as.numeric(percd[1,1]), linetype = "dashed", color = "blue") +
+    #geom_vline(xintercept = as.numeric(percd[2,1]), linetype = "dashed", color = "blue") +
+    #geom_vline(xintercept = as.numeric(percd[3,1]), linetype = "dashed", color = "blue") +
+    #geom_vline(xintercept = as.numeric(percd[3,4]), linetype = "solid", color = "red") +
+    #geom_label(y=0,x=as.numeric(percd[1,1]),label="*",geom="label") +
+    #geom_label(y=0,x=as.numeric(percd[2,1]),label="**",geom="label") +
+    #geom_label(y=0,x=as.numeric(percd[3,1]),label="***",geom="label") +
+    theme_minimal() +
+    scale_fill_manual(values = c("#0072b2", "#e69f00"))  # set fill colors
+})
+#########################################################################################################################################
 ############################################################################################################################################################
 #' @export Countingprocess
 Countingprocess <- setRefClass("Countingprocess",
@@ -539,28 +549,32 @@ Countingprocess$methods(plext=function(){
     dplyr::mutate(xy=x*y)
 })
 
-Countingprocess$methods(purging=function(mdprg=NULL,pri=0){
+Countingprocess$methods(purging=function(z=0,stuv=c(0,0,0,0),blup=c(0,1),eqp=c("alpha=k0+k1*x+k2*y"),rnk=0,pres=NULL,pri=0){
   rdfv <- rdfci %>%
     dplyr::arrange(P) %>%
-    # Filter
-    ## Number of ballots
-    dplyr::filter(S>=mdprg$prg$stuv[1]) %>%
-    dplyr::filter(T>=mdprg$prg$stuv[2]) %>%
-    dplyr::filter(U>=mdprg$prg$stuv[3]) %>%
-    dplyr::filter(V>=mdprg$prg$stuv[4]) %>%
+    dplyr::filter(Z>=stuv[1]) %>%
+    dplyr::filter(S>=stuv[1]) %>%
+    dplyr::filter(T>=stuv[2]) %>%
+    dplyr::filter(U>=stuv[3]) %>%
+    dplyr::filter(V>=stuv[4]) %>%
     ## Percentages
-    dplyr::filter(if_all(c(alpha,x,y,g,h,m,n),~.>mdprg$prg$blup[1]&.<mdprg$prg$blup[2]))
+    #sum(dplyr::select(rdfv,S,T,U,V))
+    dplyr::filter(if_all(c(alpha,x,y,g,h,m,n),~.>blup[1]&.<blup[2]))
     # Fit filter
+    #browser()
+    #eqp <- "V=k0+k1*Z+k2*S"
     erdfv <- Estimation(rdfv)
-    erdfv$regression(mdprg$sgs$eq)
+    erdfv$regression(eqp)
+    erdfv$regsum[[1]]
     rdfc <<- erdfv$predict_df %>%
             dplyr::mutate(pre_rnk=dplyr::row_number(desc(deva))) %>%
             dplyr::arrange(pre_rnk) %>%
-            #dplyr::filter(pre_rnk>regr[[2]]) %>% dplyr::filter(!P%in%pref) %>%
+            dplyr::filter(pre_rnk>rnk) %>% 
+	    dplyr::filter(!P%in%pres) %>%
             dplyr::mutate(pri=dplyr::row_number()/length(P)) %>%
             dplyr::arrange(P)
-    #!Discarded
-  if (pri==1) {print(dim(rdfci)); print(dim(rdfv)); print(dim(rdfc))}
+  #print(dim(rdfci)[1]); print(dim(rdfv)[1]); print(dim(rdfc)[1])
+  if (pri==1) {print(dim(rdfci)[1]); print(dim(rdfv)[1]); print(dim(rdfc)[1])}
 })
 #})
 Countingprocess$methods(sortpre=function(form=1,
@@ -605,7 +619,7 @@ Countingprocess$methods(mansys=function(sygen=NULL){
 Countingprocess$methods(setres=function(czset=NULL,prnt=0){
   frp <- mansysl$frm
   if (!is.null(czset)) {
-    polyc[[frp]][[1]][[1]] <<- czset
+    polyc[[frp]][[1]][[1]] <<- czset   
     enf[[1]] <<- unname(stats::predict(polyc[[mansysl$frm]]))
   }
   if (prnt==1) {
@@ -619,6 +633,7 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
 
   ## Variables
   lof <- function(kvec=NULL,prn=T){
+#	  browser()
     kvnr <- c(3,6,10,17)[mansysl$plnr]
     kvea <- rep(0,kvnr); names(kvea) <- paste0("k",0:(length(kvea)-1))
     kvea[1:length(kvec)] <- kvec
@@ -626,6 +641,8 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
     abcv <- setNames(as.vector(lapply(enf[[3]][[3]], as.character)),c(paste0(rep(letters[1:3], each=3), rep(1:3, times=3))))
     mv <- c(m1=cos(rad[1]),m2=cos(rad[2]),m3=cos(rad[3]))
     nv <- c(n1=sin(rad[1]),n2=sin(rad[2]),n3=sin(rad[3]))
+    #head(loss_df)
+    #browser()
     loss_df <<- rdfci %>%
       dplyr::select(P,R,S,T,U,V,Z,all_of(allvec)) %>%
       data.table::setnames(allvec,altvec) %>%
@@ -635,7 +652,7 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
       dplyr::mutate(!!!mv,!!!nv) %>%
       dplyr::mutate(a1=pareq(abcv[1],c(as.list(.[,])))) %>%
       dplyr::mutate(a2=pareq(abcv[2],c(as.list(.[,])))) %>%
-      dplyr::mutate(a3=pareq(abcv[3],c(as.list(.[,])))) %>%
+      dplyr::mutate(a3=pareq(abcv[3],c(as.list(.[,])))) %>%  
       dplyr::mutate(b1=pareq(abcv[4],c(as.list(.[,])))) %>%
       dplyr::mutate(b2=pareq(abcv[5],c(as.list(.[,])))) %>%
       dplyr::mutate(b3=pareq(abcv[6],c(as.list(.[,])))) %>%
@@ -655,7 +672,8 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
       dplyr::mutate(!!allvec[4]:=pareq(se[[endp[1]]][2],c(as.list(.[,])))) %>%
       dplyr::mutate(!!allvec[5]:=pareq(se[[endp[2]]][2],c(as.list(.[,])))) %>%
       dplyr::mutate(!!allvec[6]:=pareq(se[[endp[3]]][2],c(as.list(.[,])))) %>%
-      dplyr::mutate(LSV:=pareq(mansysl$lf,c(as.list(.[,])))) %>%
+      dplyr::mutate(LSV=0) %>%
+      #dplyr::mutate(LSV:=pareq(mansysl$lf,c(as.list(.[,])))) 
       ##### Backsolving for ballots
       ## Observatinal values
       dplyr::mutate(!!paste0(stuv[1],'_m'):=pareq(se[[paste0(stuv[1],sho)]][2],as.list(.[])))  %>%
@@ -667,7 +685,7 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
       dplyr::mutate(Z_m=S_m+T_m+U_m+V_m) %>%
       dplyr::mutate(R_m=R) %>%
       ## testing
-      dplyr::mutate(alpha_test=(S_m+U_m)/(Z_m))
+      dplyr::mutate(alpha_test=(S_m+U_m)/(Z_m)) 
       ## Loss value
   }
   lv <- function(params=NULL){
@@ -678,13 +696,13 @@ Countingprocess$methods(manimp=function(init_par=NULL,wn=c(0,0),
     #print(clvl)
   }
   # Init
+  #browser()
   allvec <- c(unlist(allvar$pre),unlist(allvar$end))
   stuv <- paste0(c(unlist(allstuv)))
   sho <- c("_s","_h","_o")[[mansysl$frm]]
   altvec <- paste0(as.vector(unlist(allvar)),sho)
   endp <- paste0(allvec,sho)[c(4,5,6)]
   if (identical(man,TRUE)){
-    #print('non-algo')
     loss_ls <<- list(value=lv(params=init_par))
   } else {
     lome <- c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN","Brent")[1] #[lfpar$mtd]
@@ -700,7 +718,6 @@ Countinggraphs$methods(plot2d=function(form=1,
     				       labs=list(title=NULL,x="precinct (normalized)",y="percentage",caption=NULL,
 				       alpha=1,size=1)
 				       ){
-  #browser() #1
   longdf <- tidyr::pivot_longer(quintile,all_of(c(psel,paste0(psel,'_pred'))))
   go <- ggplot2::ggplot(data=longdf) +
     ggplot2::geom_line(data=filter(longdf,name%in%paste0(psel[c(1,2,3)],'_pred')),ggplot2::aes(x=pri,y=value, color=name)) +
@@ -762,7 +779,7 @@ Countinggraphs$methods(plotly3d=function(
           yaxis = list(title = names(gdf)[2]),
           zaxis = list(title = names(gdf)[3])
         )
-      )
+      ) 
   })
   # Assign names to the list
   names(pl_3d_mani) <<- sapply(seq(1, dim(combi)[2]), function(x, comb = combi, df = rdfcpar) {
@@ -936,11 +953,12 @@ Estimation$methods(hat_predict=function(svf='y',rnr=1){
   kvec <<- broom::tidy(regsum[[1]])$estimate
   names(kvec) <<- paste0("k", 0:(length(kvec) - 1))
   if (roto==0){
-    ex <- gsub("\\^","**",regform[2])
-    sd <- regform[1]
     eurv <- c(0,0,0)
-    svfi <- c(svf,svf)
-    lpy <<- py_genpolycoeff(expr=ex,solvd=sd,solvf=svfi[2],eur=eurv)
+    #ex <- gsub("\\^","**",regform[2])
+    #sd <- regform[1]
+    #svfi <- c(svf,svf)
+    #lpy <<- py_genpolycoeff(1,expr=ex,solvd=sd)
+    lpy <<- py_genpolycoeff(plr=1,parm=c("alpha", "g", "h"), solvd='g',eur=eurv)
     setNames(as.vector(lapply(lpy[[1]], as.character)),LETTERS[1:5])
     pnr <- sum(lpy[[1]]!="0")
   }
@@ -949,6 +967,7 @@ Estimation$methods(hat_predict=function(svf='y',rnr=1){
     sd <- regform[1]
     eurv <- c(edfc$st1[1],edfc$st2[2],edfc$st3[3])
     lpy <<- py_genpolycoeff(expr=NULL,solvd=sd,solvf='Z',eur=eurv)
+    #py_genpolycoeff(plr=1,parm=c("alpha", "x", "y"), solvd='x',eur=c(1, 4, 2))[[3]]
     lpy[[1]] <<- setNames(as.vector(lapply(lpy[[1]],as.character)),LETTERS[1:5])
     lpy[[2]] <<- setNames(as.vector(lapply(lpy[[2]],as.character)),c("x","y","z"))
     lpy[[3]] <<- setNames(as.vector(lapply(lpy[[3]],as.character)),paste0(rep(letters[1:3],each=3),seq(1,3)))
@@ -962,8 +981,8 @@ Estimation$methods(hat_predict=function(svf='y',rnr=1){
     dplyr::mutate(D=pareq(as.character(lpy[[1]][[4]]),.[,])) %>%
     dplyr::mutate(E=pareq(as.character(lpy[[1]][[5]]),.[,])) %>%
     dplyr::group_by(P) %>%
-    dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
-    #dplyr::mutate(polsolv=py_polysolverWW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    #dplyr::mutate(polsolv=py_polysolverW(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
+    dplyr::mutate(polsolv=py_polysolver(pnr-1,c(A,B,C,D,E)[1:pnr])) %>%
     dplyr::mutate(!!paste0(svf[1],'_hat'):=Re(polsolv[1])) %>%
     dplyr::ungroup()
   regsum[[2]] <<- lm(as.formula(paste0(svf[1],"~", svf[1],'_hat')),data=pred_df_pol)
@@ -1006,3 +1025,6 @@ Estimation$methods(hat_intcomp=function(){
     prc0123=100*sum(abs(compare[[comps]] - 0) <= 3)/length(compare[[comps]]))
   comdesc <<- data.frame(stats=names(vnd),values=vnd)
 })
+
+
+
